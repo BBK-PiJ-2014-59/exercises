@@ -13,16 +13,27 @@ public class Text {
         // ffo foo oob oba bar arf rfo foo oof = 9, 2 match
         
         int match = 0;
-        boolean matchc;
+        boolean matchc = false;
+        System.out.println(longstr.length());
+        System.out.println(findthis.length());
+
         for (int i=0; i < ((longstr.length() - findthis.length()) + 1); ++i) {
-            matchc = false;
-            for (int j=i; j < findthis.length(); ++j) {
-                if(longstr.charAt(i+j) != findthis.charAt(j)) 
+            System.out.println("i: " + i);
+            for (int j=0; j < findthis.length(); ++j) {
+                matchc = false;
+                if(longstr.charAt(i+j) != findthis.charAt(j)) {
+                    System.out.println("no char match: " + longstr.charAt(i+j) + findthis.charAt(j));
                     break;
-                else 
+                }
+                else {
                     matchc = true;
-            if (matchc == true)
+                    System.out.println("matchc: " + longstr.charAt(i+j) + findthis.charAt(j));
+                }
+            }
+            if (matchc == true) {
                 ++match;
+                matchc = false;
+                System.out.println("++match = " + match);
             }
         }
         return match;
