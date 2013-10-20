@@ -15,9 +15,10 @@ public class InsideOrOutside {
         // testpoint = new TestPoint();
     // }
     
-    public boolean isInside(Point testp, Rectangle rect) {
-        double tpx = testp.getx();
-        double tpy = testp.gety();
+    public boolean isInside(TestPoint testp, Rectangle rect) {
+        Point tp = testp.getTestPoint();
+        double tpx = tp.getx();
+        double tpy = tp.gety();
         Point rp1 = rect.getP1();
         Point rp2 = rect.getP2();
         double rp1x = rp1.getx();
@@ -104,10 +105,10 @@ public class InsideOrOutside {
         }
         
         public void getPointFromUser(String desc) {
-            System.out.println("Enter " + desc + "x: ");
+            System.out.println("Enter " + desc + " x: ");
             double in = Double.parseDouble(System.console().readLine());
             setx(in);
-            System.out.println("Enter " + desc + "y: ");
+            System.out.println("Enter " + desc + " y: ");
             in = Double.parseDouble(System.console().readLine());
             sety(in);
         }
@@ -123,6 +124,6 @@ public class InsideOrOutside {
         InsideOrOutside.TestPoint testpoint = pointTest.new TestPoint();  
         testpoint.getTestPointFromUser();
         String answer = (pointTest.isInside(testpoint, rectangle)) ? "Inside" : "Not inside";
-        
+        System.out.println(answer);
     }
 }
