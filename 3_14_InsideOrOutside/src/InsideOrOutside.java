@@ -10,18 +10,30 @@ public class InsideOrOutside {
     Rectangle r;
     TestPoint testpoint;
     
-    public InsideOrOutside() {
-        r = new Rectangle();
-        testpoint = new TestPoint();
+    // public InsideOrOutside() {
+        // r = new Rectangle();
+        // testpoint = new TestPoint();
+    // }
+    
+    public boolean isInside(Point testp, Rectangle rect) {
+        double tpx = testp.getx();
+        double tpy = testp.gety();
+        Point rp1 = rect.getP1();
+        Point rp2 = rect.getP2();
+        double rp1x = rp1.getx();
+        double rp1y = rp1.gety();
+        double rp2x = rp2.getx();
+        double rp2y = rp2.gety();
+        
+        if (isBetween(tpx, rp1x, rp2x) && isBetween(tpx, rp1y, rp2y)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
-    public Double[] getPointFromUser(String desc) {
-        Double xy[] = new Double[2];
-        System.out.println("Enter " + desc + "x: ");
-        xy[0] = Double.parseDouble(System.console().readLine());
-        System.out.println("Enter " + desc + "y: ");
-        xy[1] = Double.parseDouble(System.console().readLine());
-        return xy;
+    public boolean isBetween(Double a, Double lim1, Double lim2) {
+        return ((lim1 > a && a > lim2 ) || (lim2 > a && a > lim1));
     }
     
     public class TestPoint {
@@ -30,51 +42,87 @@ public class InsideOrOutside {
         TestPoint() {
             tp = new Point();
         }
-    }
-    
-    public getTestPoint() {
-        Double xy[] getPoint
         
+        void getTestPointFromUser() {
+            tp.getPointFromUser("test point");
+        }
+        
+        Point getTestPoint() {
+            return tp;
+        }
     }
     
     public class Rectangle {
         Point p1;
         Point p2;
     
-        Rectangle() {
+        public Rectangle() {
             p1 = new Point();
             p2 = new Point();
         }
         
-        class Point {
-            double x;
-            double y;
+        Rectangle getRectangle() {
+            return this;
         }
         
-        private void setX(Point p, double xIn) {
-            p.x = xIn;
+        private Point getP1() {
+            return p1;
         }
         
-        private void setY(Point p, double yIn) {
-            p.y = yIn;
-        }
-                
-        public void getPoint() {
-            System.out.println("Enter x: ");
-            double in = Double.parseDouble(System.console().readLine());
-            setX(p1, in);
-            System.out.println("Enter y: ");
-            in = Double.parseDouble(System.console().readLine());
-            setY(p1, in);
+        private Point getP2() {
+            return p2;
         }
         
+        public void getP1FromUser() {
+            p1.getPointFromUser("rectangle point one");
+        }
+        
+        public void getP2FromUser() {
+            p2.getPointFromUser("rectangle point two");
+        }
     }
+    
+    class Point {
+        String desc;
+        double x;
+        double y;
+        
+        double getx() {
+            return x;
+        }
+        
+        double gety() {
+            return y;
+        }
+        
+        void setx(Double xIn) {
+            x = xIn;
+        }
+        
+        void sety(Double yIn) {
+            y = yIn;
+        }
+        
+        public void getPointFromUser(String desc) {
+            System.out.println("Enter " + desc + "x: ");
+            double in = Double.parseDouble(System.console().readLine());
+            setx(in);
+            System.out.println("Enter " + desc + "y: ");
+            in = Double.parseDouble(System.console().readLine());
+            sety(in);
+        }
+    }
+        
     
     public static void main(String[] args) {
         InsideOrOutside pointTest = new InsideOrOutside();
-        pointTest.Rectangle.getPoint();
-        pointTest.Rectangle.getPoint();
-        pointTest.getTestPoint();
-        pointTest.printInOrOut();
+        // OuterClass.InnerClass innerObject = outerObject.new InnerClass();
+        InsideOrOutside.Rectangle rectangle = pointTest.new Rectangle();
+        rectangle.getP1FromUser();
+        rectangle.getP2FromUser();
+        InsideOrOutside.TestPoint testpoint = pointTest.new TestPoint();  
+        testpoint.getTestPointFromUser();
+        String answer = (pointTest.isInside(testpoint, rectangle)) ? "Inside" : "Not inside";
+        
     }
 }
