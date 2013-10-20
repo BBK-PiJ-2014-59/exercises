@@ -1,20 +1,36 @@
+import java.util.*;
+
 public class MailServer {
     
-    printWelcome() {
+    void printWelcome() {
         System.out.println("Welcome to my mail server!");
     }
        
+    void printMail(From f, To t, Data d) {
+        System.out.println(f.get());
+        System.out.println(t.get());
+        List<String> lines = new ArrayList<String>();
+        lines = d.get();
+        for (int i = 0; i < lines.size(); ++i) {
+            System.out.println(lines.get(i));
+        }        
+    }
+    
     String getCommandAndAddressFromUser(String cmd) {
         boolean okToProceed = false;
-        String entry;
+        String entry = "";
+        String address = "";
         while (!okToProceed) {
             entry = promptUser();
             if (validAddressLine(cmd, entry)) {
+                address = entry.substring(cmd.length());
                 okToProceed = true;
             } else if (entry == "QUIT") {
-                quit();
+                System.out.println("Bye!");
+                System.exit(0);
             }
         }
+        return address;
     }
     
     boolean validAddressLine(String cmd, String entry) {
@@ -47,18 +63,64 @@ public class MailServer {
     }
     
     class From {
-        public String getFromUser() {
-            return getCommandAndAddressFromUser("MAIL FROM:");            
+        String command = "MAIL FROM:";
+        String fromAddress;
+        
+        public void getFromUser() {
+            fromAddress = getCommandAndAddressFromUser(command);            
+        }
+        
+        public String get() {
+            return fromAddress;
         }
     }
     
     class To {
-        public String getFromUser() {
-            return getCommandAndAddressFromUser("RCPT TO:");
+        String command = "RCPT TO:";
+        String toAddress;
+
+        public void getFromUser() {
+            toAddress = getCommandAndAddressFromUser(command);
+        }
+        
+        public String get() {
+            return toAddress;
         }
     }
 
     class Data {
+        String command = "DATA";
+        List<String> body = new ArrayList<String>();
+
+        public List<String> get() {
+            return body;
+        }
+        
+        public void getFromUser() {
+            body = getCommandAndDataFromUser(command);
+        }
+        
+        List<String> getCommandAndDataFromUser(String cmd) {
+            boolean okToProceed = false;
+            List<String> lines = new ArrayList<String>();
+            String entry = "";
+            while (!okToProceed) {
+                entry = promptUser();
+                if (entry.trim() == cmd) {
+                    boolean endBody = false;
+                    String curline;
+                    while (!endBody) {
+                        curline = System.console().readLine();
+                        if (curline == ".") {
+                            endBody = true;
+                        } else {
+                            lines.add(curline);
+                        }
+                    }
+                }
+            }
+            return lines;
+        }
         
     }
     
@@ -81,6 +143,6 @@ public class MailServer {
         MailServer.Data data = mailserver.new Data();
         data.getFromUser();
         
-        mailserver.printMail();
+        mailserver.printMail(from, to, data);
     }
 }
