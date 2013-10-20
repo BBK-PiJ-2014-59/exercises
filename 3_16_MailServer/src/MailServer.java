@@ -28,17 +28,20 @@ public class MailServer {
             } else if (entry == "QUIT") {
                 System.out.println("Bye!");
                 System.exit(0);
+            } else {
+                System.out.println("Invalid command.");
             }
         }
+        System.out.println("OK");
         return address;
     }
     
     boolean validAddressLine(String cmd, String entry) {
         boolean isOk = false;
-        if (entry.startsWith(cmd)) {
-            String part2 = entry.substring(cmd.length());
-            System.out.println("part2 " + part2);
+        if (entry.startsWith(cmd) && entry.length() > cmd.length()) {
+            String part2 = entry.substring(cmd.length() + 1);
             if (looksLikeAnEmailAddress(part2)) {
+                System.out.println("part2 " + part2);
                 isOk = true;
             } 
         } 
@@ -51,7 +54,7 @@ public class MailServer {
         int numats = 0;
         for (int i = 0; i < chars.length; ++i) {
             if (chars[i] == '@') {
-                if (i == 1 || i == chars.length - 1 || numats > 0) {
+                if (i == 0 || i == chars.length - 1 || numats > 0) {
                     isOk = false;
                     break;
                 } else {
