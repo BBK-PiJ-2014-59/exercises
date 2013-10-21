@@ -36,7 +36,7 @@ public class MortgageCalc {
       
       Double totalPaid() {
           // t = c * ((1+r) / 100 )
-          return amountBorrowed * ( (1.0 + interestRate) /  100.0 );
+          return amountBorrowed * ( 1.0 + (interestRate / 100.0 ) );
       }
       
       Double totalPaidEachYear() {
@@ -44,7 +44,7 @@ public class MortgageCalc {
       }
       
       Double interestFinished() {
-          return (interestRate * totalPaid()) / totalPaidEachYear();
+          return ((interestRate/100) * totalPaid()) / totalPaidEachYear();
       }
       
     public static void main(String[] args) {
@@ -53,7 +53,7 @@ public class MortgageCalc {
         calc.setAmountBorrowed(Double.parseDouble(System.console().readLine()));
         System.out.println("Enter number of years to pay it back: ");
         calc.setYearsToPayBack(Double.parseDouble(System.console().readLine()));
-        System.out.println("Enter interest rate: ");
+        System.out.println("Enter interest rate (as a %): ");
         calc.setInterestRate(Double.parseDouble(System.console().readLine()));
         calc.printSummary();
     }
