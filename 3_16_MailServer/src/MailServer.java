@@ -110,6 +110,7 @@ public class MailServer {
             while (!okToProceed) {
                 entry = promptUser();
                 if (entry.trim() == cmd) {
+                    System.out.println();
                     boolean endBody = false;
                     String curline;
                     while (!endBody) {
