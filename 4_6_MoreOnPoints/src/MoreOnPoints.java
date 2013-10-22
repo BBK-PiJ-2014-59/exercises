@@ -45,15 +45,24 @@ public class MoreOnPoints {
             return c;
         }
 
-        // distanceToOrigin(): calculates the distance to the origin. 
-        // Implement it by calling distanceTo().
+	Double distanceToOrigin() {
+  // distanceToOrigin(): calculates the distance to the origin. 
+  // Implement it by calling distanceTo().
+
+    MoreOnPoints session = new MoreOnPoints();
+    MoreOnPoints.Point origin = session.new Point(0.0,0.0);
+    return this.distanceTo(origin);
+     	
+	}
+
     } 
     
     public void launch(MoreOnPoints session) {
-        MoreOnPoints.Point point1 = session.new Point(0.0,0.0); 
+        MoreOnPoints.Point point1 = session.new Point(3.0,4.0); 
         MoreOnPoints.Point point2 = session.new Point(3.0,4.0);
         // System.out.println(point2.x);
-        System.out.println(point1.distanceTo(point2));
+        // System.out.println(point1.distanceTo(point2));
+        System.out.println(point1.distanceToOrigin());
     }
       
     public static void main(String[] args) {
