@@ -8,10 +8,11 @@ import java.math.*;
 public class BinAndHex {
 
   void launch() {
-    BinAndHex.Number n = this.new Number(System.console().readLine());
+    BinAndHex.Number n = this.new Number();
     n.getString();
     n.setHexness();
     n.runConversion();
+    System.out.println(n.convertedToDec); 
   }
  
   class Number {
@@ -19,9 +20,9 @@ public class BinAndHex {
     String entered;
     int convertedToDec;
 
-    Number(String str) {
-      entered = str;
-    }
+    // Number(String str) {
+    //  entered = str;
+    // }
     
     Number setIsHex(boolean h) {
       isHex = h;
@@ -38,10 +39,13 @@ public class BinAndHex {
       String hdig;
       entered = entered.substring(2);
       char[] chars = entered.toCharArray(); 
+      System.out.println(chars);
       int ddig = 0;
       for (int i = chars.length - 1, j = 0; i >= 0; --i, ++j) { 
         if (Character.isDigit(chars[i])) {
-          ddig = Character.valueOf(chars[i]); 
+          ddig = Character.getNumericValue(chars[i]); 
+     
+          System.out.println(ddig);
         } else {
           switch (chars[i]) {
             case 'a':
@@ -63,8 +67,8 @@ public class BinAndHex {
               ddig = 15;
               break;
           }      
-          total += ddig * Math.pow(16, j);
         }  
+        total += ddig * Math.pow(16, j);
       }
       return total;
     }
