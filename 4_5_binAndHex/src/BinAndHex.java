@@ -6,8 +6,12 @@
 import java.math.*;
 
 public class BinAndHex {
+
   void launch() {
-    runConversion(setHexness(getString()));
+    BinAndHex.Number n = this.new Number(System.console().readLine());
+    n.getString();
+    n.setHexness();
+    n.runConversion();
   }
  
   class Number {
@@ -70,29 +74,32 @@ public class BinAndHex {
 
     }
         
-  }
+    void setHexness() {
+      boolean b = this.entered.startsWith("0x")? true : false;
+      this.setIsHex(b);
+    } 
 
-  Number getString() {
-    System.out.println("Enter a hex or decimal number: ");
-    BinAndHex.Number n = this.new Number(System.console().readLine());
-    return n;
-  }
+	  void runConversion() {
+	    if (this.isHex) {
+	      this.convertedToDec = this.toDecimal();  
+	    } else {
+	      // num.convertedToDec = num.toHex();
+	    }  
+	  } 
 
-  void setHexness(Number num) {
-    boolean b = num.entered.startsWith("0x")? true : false;
-    num.setIsHex(b);
-  } 
+    void getString() {
+      System.out.println("Enter a hex or decimal number: ");
+      // BinAndHex.Number n = this.new Number(System.console().readLine());
+      entered = System.console().readLine();
+    }
+	}
 
-  void runConversion(Number num) {
-    if (num.isHex) {
-      num.convertedToDec = num.toDecimal();  
-    } else {
-      num.converted = num.toHex();
-    }  
-  } 
+
+
 
   public static void main(String[] args) {
     BinAndHex session = new BinAndHex();
+    // BinAndHex.Number n = session.new Number(System.console().readLine());
     session.launch();
   }  
 }
