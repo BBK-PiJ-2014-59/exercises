@@ -16,23 +16,23 @@
 // an object with two, and then calculate the other from it.
 
 public class PaperSizes {
-  static double a4long = 1189.0;
-  static double a4short = 841.0;
+  static double a0long = 1189.0;
+  static double a0short = 841.0;
   public double getShortSide(int n) {
-    if (n == 4) {
-      return a4short;
-    } else if (n > 4) {
+    if (n == 0) {
+      return a0short;
+    } else if (n > 0) {
       System.out.println(n + " > 4");
-      return (a4long / (2 * a4short)) * getShortSide(n - 1);
-    } else if (n < 4) {
+      return (a0long / (2 * a0short)) * getShortSide(n - 1);
+    } else if (n < 0) {
       System.out.println(n + " < 4");
-      return ((2 * a4short) / a4long) * getShortSide(n + 1);
+      return ((2 * a0short) / a0long) * getShortSide(n + 1);
     } else {
       return -1;
     }
   } 
   public static void main(String[] args) {
     PaperSizes p = new PaperSizes();
-    System.out.println(p.getShortSide(4));
+    System.out.println(p.getShortSide(-2));
   }
 }
