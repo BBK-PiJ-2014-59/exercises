@@ -45,12 +45,22 @@ public class EightDames {
 	    } else {
 	      ++x;
 	    }
+      boolean allOk, horizontalOk, verticalOk, diagonalOk;
+      horizontalOk = verticalOk = diagonalOk = false;
 	    if (n == 1) {
-	      return true;
+	       allOk = true;
 	    } else {
         Square nextdame = new Square(n - 1);
-	      if (this.getx() != 
-	    } 
+	      if (this.getx() != nextdame.getx()) {
+          horizontalOk = true;
+        } 
+        if (horizontalOk) { 
+          if (this.gety() != nextdame.gety()) {
+            verticalOk = true;
+          }
+        if (horizontalOk && verticalOk) {
+          int xdif = this.getx() - nextdame.getx();
+	      } 
 	    }
   }
 
