@@ -2,11 +2,16 @@ import java.util.*;
 
 public class Matrix {
   private int[][] m;
+  private int numRows;
+  private int numCols;
+
 
   private Matrix (int d1, int d2) {
-    m = new int[d1][d2]; 
-    for (int i = 0; i < d1; ++i) 
-      for (int j = 0; j < d2; ++j)
+    numRows = d1;
+    numCols = d2;
+    m = new int[numRows][numCols]; 
+    for (int i = 0; i < numRows; ++i) 
+      for (int j = 0; j < numCols; ++j)
         m[i][j] = 1;
   }
   
@@ -35,11 +40,43 @@ public class Matrix {
     if (colNum >= 0 && colNum < m[0].length) {
       String[] colValStrings = colVals.split(",");
       if (colValStrings.length == m.length) {
-        for (int i = 0; i < m.length; ++i) {
+        for (int i = 0; i < m.length; ++i) {;
           m[i][colNum] = (Integer.parseInt(colValStrings[i]));
         }
       } 
     }
+  }
+
+  // a method toString() that returns the values in the array as a String using square brackets, commas, and semicolons, e.g. “[1,2,3;4,5,6;3,2,1]”
+
+  private String toString2() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("[");
+    for (int i = 0; i < numRows; ++i) {
+      for (int j = 0; j < numCols; ++j) {
+        sb.append(m[i][j]);
+        if (j < numCols - 1) 
+          sb.append(",");
+      }
+      if (i < numRows - 1)
+        sb.append(";");
+    } 
+    sb.append("]");
+    return sb.toString();
+  }
+
+  // A method prettyPrint() that prints the values of the matrix on screen in a legible format. Hint: you can use the special character ’\t’ (backslash-t) to mark a tabulator so that all numbers are placed in the same column regardless of their size. You can think of a tabulator character as a move-to-the-next-column command when printing on the screen.
+
+  private void prettyPrint() {
+    for (int i = 0; i < numRows; ++i) {
+      for (int j = 0; j < numCols; ++j) {
+        System.out.print(m[i][j]);    
+        if (j < numCols - 1) { 
+          System.out.print('\t');
+        }
+      }
+      System.out.println();
+    } 
   }
 
   private void launch() {
@@ -49,6 +86,8 @@ public class Matrix {
     setColumn(1, "6,5,4,342");
     System.out.println(m[1][3]);
     System.out.println(m[3][1]);
+    System.out.println(toString2());
+    prettyPrint();
   }
 
   public static void main(String[] args) {
