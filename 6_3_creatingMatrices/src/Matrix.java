@@ -17,31 +17,12 @@ public class Matrix {
 
   // a method setRow(int,String) that modifies one whole row of the array, given its position as an integer and the list of numbers as a String like “1,2,3”. The method must check that the index is valid and the numbers are correct (i.e. if the array has three columns, the String contains three numbers). If the index or the String is invalid, the method will do nothing.
   private void setRow(int rowNum, String rowVals) {
+    // setRow(1, "6,5,4,343,2");
     if (rowNum >= 0 && rowNum < m.length) {
-      // String[] rowNums = rowVals.split(",");
-      List<Integer> li = new ArrayList<Integer>();
-      // char[] rowChars = rowVals.toCharArray();
-      // for (int i = 0; i < rowChars.length; ++i) {
-      boolean end = false;
-      int i = 0;
-      int startInt = 0;
-      // setRow(1, "6,5,4,343,2");
-
-      while (i < rowVals.length()) {  // i + 1 out of bounds?
-        System.out.println("hamish " + rowVals.substring(i, i + 1));
-        if (rowVals.substring(i, i + 1).equals(",")) {
-          String num = rowVals.substring(startInt, i);
-          li.add(Integer.parseInt(num));
-          System.out.println("yoda " + li.get(li.size() - 1));
-          ++i;
-          startInt = i;
-        } else {
-          ++i;
-        } 
-      } 
-      if (li.size() == m[rowNum].length) {
-        for (i = 0; i < m[rowNum].length; ++i) {
-          m[rowNum][i] = li.get(i);
+      String[] rowValStrings = rowVals.split(",");
+      if (rowValStrings.length == m[rowNum].length) {
+        for (int i = 0; i < m[rowNum].length; ++i) {
+          m[rowNum][i] = (Integer.parseInt(rowValStrings[i]));
         }
       } 
     }
