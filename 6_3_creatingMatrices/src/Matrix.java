@@ -67,6 +67,7 @@ public class Matrix {
 
   // A method prettyPrint() that prints the values of the matrix on screen in a legible format. Hint: you can use the special character ’\t’ (backslash-t) to mark a tabulator so that all numbers are placed in the same column regardless of their size. You can think of a tabulator character as a move-to-the-next-column command when printing on the screen.
 
+
   private void prettyPrint() {
     for (int i = 0; i < numRows; ++i) {
       for (int j = 0; j < numCols; ++j) {
@@ -79,6 +80,16 @@ public class Matrix {
     } 
   }
 
+  // exe 6-4: One-liners for matrices (*) Extend your Matrix class with a method setMatrix(String) that takes a String representing the numbers to be put in the elements of the array separated by commas, separating rows by semicolons, e.g. 1,2,3;4,5,6;7,8,9.
+  private void setMatrix(String allVals) {
+    String[] rowStrings = allVals.split(";"); 
+    // private void setRow(int rowNum, String rowVals) {
+    for (int i = 0; i < numRows; ++i) {
+      System.out.println(i + " " + rowStrings[i]);
+      setRow(i, rowStrings[i]);
+    }
+  }
+
   private void launch() {
     // int d1 = 3, d2 = 5, val = 99;
     // setElement(d1, d2, val);
@@ -87,6 +98,9 @@ public class Matrix {
     System.out.println(m[1][3]);
     System.out.println(m[3][1]);
     System.out.println(toString2());
+    prettyPrint();
+    setMatrix("1,2,3,4;5,6,7,8;9,10,11,12;13,14,15,16;17,18,19,20");
+    System.out.println();
     prettyPrint();
   }
 
