@@ -29,6 +29,7 @@ public class LinkedList {
     System.out.println(list.getNext().getData());
   }
 
+
   public void addLast2(Node list, String s) {
     Node prev = null;
     Node curr = list;
