@@ -18,6 +18,10 @@ public class Patient {
     System.out.println(name + ", " + age + ", " + illness);
   }
 
+  public void showNth(int position) {
+    nth(position).showPatient();
+  }
+
   public void addPatient(Patient newPatient) {
     if (this.nextPatient == null) {
       this.nextPatient = newPatient;
@@ -26,6 +30,10 @@ public class Patient {
     } 
   }
   
+  public void deleteNthPatient(int position) {
+    deletePatient(nth(position));
+  }
+
   public boolean deletePatient(Patient patient) {
     if (this.nextPatient == null) {
       return false;
@@ -34,6 +42,16 @@ public class Patient {
       return true;
     } else {
       return this.nextPatient.deletePatient(patient);
+    }
+  }
+
+  public Patient nth(int position) { // counting from 1
+    if (position == 1) {
+      return this;
+    } else if ((position < 1) || (nextPatient == null)) {
+      return null;
+    } else {
+      return nextPatient.nth(position - 1);
     }
   }
 }

@@ -8,6 +8,8 @@ public class HospitalManager {
     } 
   }
 
+  // delete Nth element
+
   public void launch() {
     Patient firstPatient = new Patient("John", 33, "Tuberculosis");
     patientListStart = firstPatient;
@@ -18,6 +20,12 @@ public class HospitalManager {
     patientListStart.addPatient(new Patient("Shep", 45, "Broken leg"));
     patientListStart.addPatient(new Patient("Bob", 41, "Diabetes"));
     showPatients(patientListStart);
+    patientListStart.showNth(1);
+    // patientListStart.deleteNthPatient(1);
+    // patientListStart.showNth(1); // why doesn't this work? draw picture.
+    patientListStart = patientListStart.nth(2); 
+    patientListStart.showNth(1);
+    patientListStart.showNth(2);
   }
 
   public static void main(String[] args) {
