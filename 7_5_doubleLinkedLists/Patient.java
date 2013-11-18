@@ -12,6 +12,7 @@ public class Patient {
   public void setNext(Patient p) { nextPatient = p; }
   public void setPrev(Patient p) { prevPatient = p; }
 
+
   // print patient, return patient.prevPatient;
   public void printBackwards() {
     Patient temp = this;
@@ -62,11 +63,25 @@ public class Patient {
     deletePatient(nth(position));
   }
 
+//  public boolean deletePatient(Patient patient) {
+//    if (this.nextPatient == null) {
+//      return false;
+//    } else if (this.nextPatient.name.equals(patient.name)) {
+//      this.nextPatient = nextPatient.nextPatient;
+//      return true;
+//    } else {
+//      return this.nextPatient.deletePatient(patient);
+//    }
+//  }
+
   public boolean deletePatient(Patient patient) {
-    if (this.nextPatient == null) {
-      return false;
+    if (this.nextPatient == null) { 
+      // this is last node (or there are none?)
+      this.prevPatient.nextPatient = null;
+      return true;
     } else if (this.nextPatient.name.equals(patient.name)) {
       this.nextPatient = nextPatient.nextPatient;
+      this.nextPatient.prevPatient = this;
       return true;
     } else {
       return this.nextPatient.deletePatient(patient);

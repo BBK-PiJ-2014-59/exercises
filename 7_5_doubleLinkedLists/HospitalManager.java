@@ -20,23 +20,28 @@ public class HospitalManager {
   // delete Nth element
 
   public void launch() {
-    Patient firstPatient = new Patient("John", 33, "Tuberculosis");
+    Patient firstPatient = new Patient("1John", 33, "Tuberculosis");
     patientListStart = firstPatient;
-    patientListStart.addPatient(new Patient("Jane", 72, "liver cancer"));
-    patientListStart.addPatient(new Patient("Jim", 25, "HIV"));
-    patientListStart.addPatient(new Patient("Paul", 55, "Flu"));
-    patientListStart.addPatient(new Patient("Mary", 85, "Broken hip"));
-    patientListStart.addPatient(new Patient("Shep", 45, "Broken leg"));
-    patientListStart.addPatient(new Patient("Bob", 41, "Diabetes"));
+    patientListStart.addPatient(new Patient("2Jane", 72, "liver cancer"));
+    patientListStart.addPatient(new Patient("3Jim", 25, "HIV"));
+    patientListStart.addPatient(new Patient("4Paul", 55, "Flu"));
+    patientListStart.addPatient(new Patient("5Mary", 85, "Broken hip"));
+    patientListStart.addPatient(new Patient("6Shep", 45, "Broken leg"));
+    patientListStart.addPatient(new Patient("7Bob", 41, "Diabetes"));
     showPatients(patientListStart);
-    System.out.println(size(patientListStart));
-    patientListStart.nth(7).showPatient();
-    // patientListStart.nth(7).printBackwards();
-      
+    System.out.println();
     patientListStart.nth(size(patientListStart)).printBackwards();
+    System.out.println();
+    // System.out.println(size(patientListStart));
+    // patientListStart.nth(7).showPatient();
+    // patientListStart.nth(7).printBackwards();
     // patientListStart.showNth(1);
     //System.out.println(size(patientListStart));
-    // patientListStart.deleteNthPatient(1);
+    patientListStart.deleteNthPatient(3);
+    showPatients(patientListStart);
+    System.out.println();
+    patientListStart.nth(size(patientListStart)).printBackwards();
+    System.out.println();
     // patientListStart.showNth(1); // why doesn't this work? draw picture.
     // patientListStart = patientListStart.nth(2); 
     // System.out.println(size(patientListStart));
