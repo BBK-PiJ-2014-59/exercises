@@ -3,9 +3,6 @@
 
 
 
-// 5. Add a new element to the list. Try to delete an element that is NOT in the list.  
-
-// 6. Traverse it forwards and backwards printing out the content of each element.  
 
 // Hint: First you need to add a new field to Patient for the pointer going “backwards”. Then you need to modify the add and delete methods to make sure you do not have loose pointers.
 
@@ -88,6 +85,8 @@ public class HospitalManager {
     patientListStart.addPatient(new Patient("8Matilda", 42, "Dog bite"));
     patientListStart.addPatient(new Patient("9Maggy", 22, "Stroke"));
     patientListStart.addPatient(new Patient("10Izzy", 22, "Cirrhosis"));
+    patientListStart.addPatient(new Patient("11Kirk", 42, "Brain tumor"));
+    patientListStart.addPatient(new Patient("12Larry", 62, "Lung tumor"));
 
     // 2. Traverse it forwards and backwards printing out the content of each element.  
     System.out.println("Traverse and print forwards:\n");
@@ -126,31 +125,13 @@ public class HospitalManager {
       System.out.println();
     }
 
-    // traverseBothDirections(); 
+    // 5a. Add a new element to end of list. 
+    // 5b. Try to delete an element that is NOT in the list.  
+    // 5c. Add a new element at beginning. 
+    // 5d. Add a new element a few in. 
 
-    // patientListStart.nth(size(patientListStart)).printBackwards();
-    // System.out.println();
-    // System.out.println(size(patientListStart));
-    // patientListStart.nth(7).showPatient();
-    // patientListStart.nth(7).printBackwards();
-    // patientListStart.showNth(1);
-    //System.out.println(size(patientListStart));
-    // patientListStart.deleteNthPatient(size(patientListStart));
-    // System.out.println();
-    // showPatients(patientListStart);
-    // System.out.println();
-    // patientListStart.nth(size(patientListStart)).printBackwards();
-    // System.out.println();
-    // patientListStart.deleteNthPatient(3);
-    // showPatients(patientListStart);
-    // System.out.println();
-    // patientListStart.nth(size(patientListStart)).printBackwards();
-    // System.out.println();
-    // patientListStart.showNth(1); // why doesn't this work? draw picture.
-    // patientListStart = patientListStart.nth(2); 
-    // System.out.println(size(patientListStart));
-    // patientListStart.showNth(1);
-    // patientListStart.showNth(2);
+    // 6. Traverse it forwards and backwards printing out the content of each element.  
+
   }
 
   public static void main(String[] args) {
