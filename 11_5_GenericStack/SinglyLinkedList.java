@@ -1,5 +1,5 @@
-//public class SinglyLinkedList<T> implements List<T> {
-public class SinglyLinkedList<T> {
+public class SinglyLinkedList<T extends Number> implements List<T> {
+// public class SinglyLinkedList<T> {
   Node<T> headNode;
 
   public SinglyLinkedList() {

@@ -1,5 +1,5 @@
-// public class SinglyLinkedListStack<N> implements Stack<N> {
-public class SinglyLinkedListStack<N> {
+public class SinglyLinkedListStack<N extends Number> implements Stack<N> {
+// public class SinglyLinkedListStack<N> {
 
   private Node<N> topNode;
   private SinglyLinkedList<N> list;

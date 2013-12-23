@@ -1,7 +1,7 @@
 // generic Node for a singly-linked list
 
-public class Node<T> {
-// public class Node<T extends Number> {
+// public class Node<T> {
+public class Node<T extends Number> {
 
   // prev, next, data
   private Node<T> nextNode; 
