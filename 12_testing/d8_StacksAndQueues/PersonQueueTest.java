@@ -10,15 +10,25 @@ public class PersonQueueTest {
 
   @Before
   public void buildUp() {
-    pq = new PointerPersonQueue();
+    //pq = new PointerPersonQueue();
+    pq = new ArrayPersonQueue();
+    /*
     p1 = new Person("Yoda");
     p2 = new Person("Hamish");
     p3 = new Person("Billy");
+    */
+    p1 = new ArrayPerson("Yoda");
+    p2 = new ArrayPerson("Hamish");
+    p3 = new ArrayPerson("Billy");
   }
 
   @Test
-  public void testsEmptyQueue() { 
+  public void testsRetrieveFromEmptyQueue() { 
     assertNull(pq.retrieve());
+  }
+  
+  @Test 
+  public void testsInsertAndRetrieve() { 
     pq.insert(p1);
     assertEquals(p1, pq.retrieve());
     assertNull(pq.retrieve());
@@ -48,6 +58,26 @@ public class PersonQueueTest {
     assertNull(pq.retrieve());
   }
 
+  @Test
+  public void testsAlternatingInsertAndRetrieve() {
+    pq.insert(p1);
+    pq.insert(p2);
+    pq.insert(p3);
+    assertEquals(p1, pq.retrieve());
+    assertEquals(p2, pq.retrieve());
+    assertEquals(p3, pq.retrieve());
+    assertNull(pq.retrieve());
+    pq.insert(p1);
+    assertEquals(p1, pq.retrieve());
+  }
+
+  @Test
+  public void testsBeforeReserveMoreMemory() {
+  }
+
+  @Test
+  public void testsAfterReserveMoreMemory() {
+  }
 
 
     /*
