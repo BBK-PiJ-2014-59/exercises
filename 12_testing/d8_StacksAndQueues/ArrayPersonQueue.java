@@ -19,12 +19,7 @@ public class ArrayPersonQueue implements PersonQueue {
    */
   private int back; 
   /**
-   * current size of the array 
-   */
-  private int size; 
-
-  /**
-   * The initial size of the array.
+   * The initial personArray.length of the array.
    */
   private static int INITIAL_ARRAY_SIZE = 5;
 
@@ -32,21 +27,27 @@ public class ArrayPersonQueue implements PersonQueue {
     personArray = new ArrayPerson[INITIAL_ARRAY_SIZE];
     front = 0;
     back = 0;
-    size = personArray.length;
   }
+
+  protected int getPersonArrayLength() {
+    return personArray.length;
+  }
+
   /* 
   NOTE: how to implement? If insert to left, then must shift all to the right? Or reserve an array with
   space on both ends? Would this obviate shift need? Or as circular array? 
   */
   // public void insert(ArrayPerson person) {
   public void insert(Person person) {
-    /* if (isAlmostFull()) {
-    reserveMoreMemory();
+    System.out.println("INSERT");
+    if (isAlmostFull()) {
+      reserveMoreMemory();
     }
-    */
     personArray[back] = person;
 //return list.getHead() == null ? true : false;
-    back = back == 0 ? 0 : size - 1; 
+    System.out.println("back 1: " + back);
+    back = nextBack(); 
+    System.out.println("back 2: " + back);
   }
 
   /*
@@ -65,25 +66,46 @@ public class ArrayPersonQueue implements PersonQueue {
 
   */
 
+  private int nextBack() {
+    return back == 0 ? personArray.length - 1 : back - 1;
+  }
+
   public Person retrieve() {
-    /*
+    System.out.println("RETRIEVE");
     if (isEmpty()) {
       return null;
     }
-    */
     Person result = personArray[front];
     personArray[front] = null;
     
-    front = front > 0 ? front - 1 : size - 1; 
+    System.out.println("front 1: " + front);
+    front = front > 0 ? front - 1 : personArray.length - 1; 
+    System.out.println("front 2: " + front);
     return result;
   }
 
+  // | |D|K|2|9| 
+  //  b       f
+  //
+  // |R| |K|2|9| 
+  //  f b      
+  //
+  // so if the next place b would go is f we're almost full...
+
   private boolean isAlmostFull() {
-    if (personArray.length - front < 1) {
-      return true;
-    } else {
-      return false;
+    return nextBack() == front ? true : false; 
+  }
+
+  private void reserveMoreMemory() {
+    Person[] biggerArray = new ArrayPerson[personArray.length*2];
+    for (int i = 0; i < personArray.length; i++) {
+      biggerArray[i] = this.personArray[i];
     }
+      this.personArray = biggerArray;
+  }
+
+  private boolean isEmpty() {
+    return front == back;
   }
 
 }
