@@ -66,14 +66,26 @@ public class PersonQueueTest {
   }
 
   @Test
+  public void testsReserveMoreMemory() {
+    // todo: make this test any length of array
+    System.out.println("\n\ntestsReservesMoreMemory");
+  //  for (int i = 0; i < getPersonArrayLength(); i++) { 
+    pq.insert(p1);
+    pq.insert(p2);
+    pq.insert(p3);
+    pq.insert(p4);
+    pq.insert(p5);
+    assertEquals(p1, pq.retrieve()); // FAILS
+  }
+
+  @Test
   public void testsAlternatingInsertAndRetrieve() {
     System.out.println("\n\ntestsAlternatingInsertAndRetrieve");
-    pq.insert(p1);
-    assertEquals(p1, pq.retrieve());
-    assertNull(pq.retrieve());
-    pq.insert(p1);
-    assertEquals(p1, pq.retrieve());
-    assertNull(pq.retrieve());
+    for (int i = 0; i < 100; i++) { 
+      pq.insert(p1);
+      assertEquals(p1, pq.retrieve());
+      assertNull(pq.retrieve());
+    }
   }
 
   @Test
@@ -98,6 +110,11 @@ public class PersonQueueTest {
   @Test
   public void testsAfterReserveMoreMemory() {
     System.out.println("\n\ntestsAfterReserveMoreMemory");
+  }
+
+  @Test
+  public void testsDoesntWasteSpace() { // ie if we keep alternating insert-retrieve will it shift/double?
+    System.out.println("\n\ntestsDoesntWasteSpace");
   }
 
   /*
