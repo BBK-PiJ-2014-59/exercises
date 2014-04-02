@@ -56,6 +56,7 @@ public class PersonQueueTest {
   @Test
   public void testsQueueOfTwo() {
     System.out.println("\n\ntestsQueueOfTwo");
+    // System.out.println("YODA" + pq.getLength());
     pq.insert(p1);
     pq.insert(p2);
     pq.insert(p3);
@@ -81,7 +82,9 @@ public class PersonQueueTest {
   @Test
   public void testsAlternatingInsertAndRetrieve() {
     System.out.println("\n\ntestsAlternatingInsertAndRetrieve");
-    for (int i = 0; i < 100; i++) { 
+    // int a = 2*pq.getPersonArrayLength();
+    int a = 20;
+    for (int i = 0; i < a; i++) { 
       pq.insert(p1);
       assertEquals(p1, pq.retrieve());
       assertNull(pq.retrieve());
@@ -99,7 +102,7 @@ public class PersonQueueTest {
     assertEquals(p3, pq.retrieve());
     assertNull(pq.retrieve());
     pq.insert(p1);
-    assertEquals(p1, pq.retrieve()); // fails
+    assertEquals(p1, pq.retrieve()); 
   }
 
   @Test

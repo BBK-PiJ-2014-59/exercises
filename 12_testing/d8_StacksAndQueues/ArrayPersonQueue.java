@@ -3,6 +3,14 @@
  */
 public class ArrayPersonQueue implements PersonQueue {
 
+  public static void main(String[] args) {
+    // Person p = new ArrayPerson("Yoda");
+    // PersonQueue q = new ArrayPersonQueue(); 
+    // q.insert(p); 
+    // p = q.retrieve(); 
+    // System.out.println(hoo());
+  }
+
   /**
    * The array that contains the string. When full, a new one
    * is created.
@@ -29,9 +37,6 @@ public class ArrayPersonQueue implements PersonQueue {
     back = 0;
   }
 
-  protected int getPersonArrayLength() {
-    return personArray.length;
-  }
 
   /* 
   NOTE: how to implement? If insert to left, then must shift all to the right? Or reserve an array with
@@ -48,6 +53,10 @@ public class ArrayPersonQueue implements PersonQueue {
     System.out.println("back 1: " + back);
     back = nextBack(); 
     System.out.println("back 2: " + back);
+  }
+
+  public int getLength() {
+    return personArray.length;
   }
 
   /*
@@ -96,16 +105,47 @@ public class ArrayPersonQueue implements PersonQueue {
     return nextBack() == front ? true : false; 
   }
 
+  //  0 1 2 3 4
+  // |R|a| |2|9| 
+  //    f b     
+  // |2|9|R|a| | | | | | |
+  //          f         b 
+  
+  //  0 1 2 3 4
+  // | |g|T|9|3|
+  //  b       f
+  // |g|T|9|3| | | | | | |
+  //          f         b
+
+  //  0 1 2 3 4
+  // |7|g|T|9| |
+  //        f b 
+  // |7|g|T|9| | | | | | |
+  //          f         b
+
+
   private void reserveMoreMemory() {
+    System.out.println("HHHHHHHHHHHHHHHHHHHHHHHH");
     Person[] biggerArray = new ArrayPerson[personArray.length*2];
-    for (int i = 0; i < personArray.length; i++) {
-      biggerArray[i] = this.personArray[i];
+    int newFront;
+    int i;
+    
+    for (i = back+1; i < personArray.length; i++) {
+      biggerArray[i] = personArray[i];
     }
-      this.personArray = biggerArray;
+    newFront = i;
+    if (back > front) {
+      for (i = 0; i < front; i++) {
+        biggerArray[i] = personArray[i];
+      }
+      newFront = i;
+    }
+    front = newFront;
+    back = personArray.length - 1;
+    personArray = biggerArray;
   }
 
   private boolean isEmpty() {
     return front == back;
   }
-
 }
