@@ -109,40 +109,58 @@ public class ArrayPersonQueue implements PersonQueue {
   // |R|a| |2|9| 
   //    f b     
   // |2|9|R|a| | | | | | |
-  //          f         b 
+  //        f           b 
   
   //  0 1 2 3 4
   // | |g|T|9|3|
   //  b       f
   // |g|T|9|3| | | | | | |
-  //          f         b
+  //        f           b
 
   //  0 1 2 3 4
   // |7|g|T|9| |
   //        f b 
   // |7|g|T|9| | | | | | |
-  //          f         b
+  //        f           b
 
 
   private void reserveMoreMemory() {
-    System.out.println("HHHHHHHHHHHHHHHHHHHHHHHH");
+    System.out.println("START RESERVE");
+    System.out.println("back 1: " + back);
+    System.out.println("front 1: " + front);
     Person[] biggerArray = new ArrayPerson[personArray.length*2];
-    int newFront;
-    int i;
+    System.out.println("big length: " + biggerArray.length);
     
-    for (i = back+1; i < personArray.length; i++) {
-      biggerArray[i] = personArray[i];
+    int newFront = 0;
+    int i;
+    int j;
+   
+      
+    // loop1 
+    if (back < personArray.length - 1) {
+      //for (i = back+1, j = 0; i < personArray.length; i++, j++) {
+      for (i = back+1, j = 1; i < personArray.length; i++, j++) {
+        biggerArray[j] = personArray[i];
+        System.out.println("i, j: " + i + ", " + j);
+        
+      }
+      newFront = j; // bug ...new front set in wrong place?
     }
-    newFront = i;
+
+    // loop2 
     if (back > front) {
-      for (i = 0; i < front; i++) {
+      for (i = 0; i <= front; i++) {
         biggerArray[i] = personArray[i];
       }
       newFront = i;
     }
+
     front = newFront;
-    back = personArray.length - 1;
     personArray = biggerArray;
+    back = personArray.length - 1;
+    System.out.println("back 2: " + back);
+    System.out.println("front 2: " + front);
+    System.out.println("END RESERVE");
   }
 
   private boolean isEmpty() {
