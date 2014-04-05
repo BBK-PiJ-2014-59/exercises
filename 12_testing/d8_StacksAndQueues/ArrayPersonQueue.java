@@ -12,11 +12,11 @@ public class ArrayPersonQueue implements PersonQueue {
   }
 
   /**
-   * The array that contains the string. When full, a new one
+   * The array that contains the people. When full, a new one
    * is created.
    */
   //private ArrayPerson[] personArray;
-  private Person[] personArray;
+  private Person[] personArray; // TODO: create separate PersonArray class so you can have elem setter for testing purposes (as you don't want to make personArray public) and define length (as you don't want to make INITIAL_ARRAY_SIZE public). 
 
   /**
    * index of the front of the queue (ie where to take from) 
@@ -29,7 +29,7 @@ public class ArrayPersonQueue implements PersonQueue {
   /**
    * The initial personArray.length of the array.
    */
-  private static int INITIAL_ARRAY_SIZE = 5;
+  private static int INITIAL_ARRAY_SIZE = 6;
 
   public ArrayPersonQueue() {
     personArray = new ArrayPerson[INITIAL_ARRAY_SIZE];
@@ -132,27 +132,24 @@ public class ArrayPersonQueue implements PersonQueue {
     System.out.println("big length: " + biggerArray.length);
     
     int newFront = 0;
-    int i;
-    int j;
-   
+    int i = 0;
       
     // loop1 
     if (back < personArray.length - 1) {
       //for (i = back+1, j = 0; i < personArray.length; i++, j++) {
-      for (i = back+1, j = 1; i < personArray.length; i++, j++) {
-        biggerArray[j] = personArray[i];
-        System.out.println("i, j: " + i + ", " + j);
-        
+      for (i = back+1, newFront = 0; i < personArray.length; i++, newFront++) {
+        biggerArray[newFront] = personArray[i];
+        System.out.println("i, newFront: " + i + ", " + newFront);
       }
-      newFront = j; // bug ...new front set in wrong place?
+      System.out.println("newFront 1: " + newFront);
     }
 
     // loop2 
     if (back > front) {
-      for (i = 0; i <= front; i++) {
+      for (; i <= front; i++) {
         biggerArray[i] = personArray[i];
       }
-      newFront = i;
+      System.out.println("newFront 2: " + newFront);
     }
 
     front = newFront;
