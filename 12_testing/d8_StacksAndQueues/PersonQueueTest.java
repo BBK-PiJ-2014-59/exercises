@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 public class PersonQueueTest {
 
   PersonQueue pq;
-  PersonQueue pq6_2_3;
+  ArrayPersonQueue pq2; // FOR TESTING ONLY 
   Person p1;
   Person p2;
   Person p3;
@@ -30,9 +30,23 @@ public class PersonQueueTest {
     p5 = new ArrayPerson("Mary");
     p6 = new ArrayPerson("Darth");
 
-    pq6_2_3 = new ArrayPersonQueue(); // 6 long, 2 left, 3 right
-  
+    pq2 = new ArrayPersonQueue(); // 6 long, 2 left, 3 right
+    //pq2.personArray = {p1, p2, null, p3, p4, p5}; 
+    pq2.personArray[0] = p1;
+    pq2.personArray[1] = p2;
+    pq2.personArray[2] = null;
+    pq2.personArray[3] = p3;
+    pq2.personArray[4] = p4;
+    pq2.personArray[5] = p5;
+    pq2.front = 1;
+    pq2.back = 2; 
 
+    /*
+    pq2:
+     0  1  2  3  4  5
+    |p1|p2|  |p3|p4|p5|
+        f  b
+    */
   }
 
   @Test
@@ -79,14 +93,43 @@ public class PersonQueueTest {
   public void testsReserveMoreMemory() { 
     // todo: make this test any length of array
     System.out.println("\n\ntestsReservesMoreMemory");
-  //  for (int i = 0; i < getPersonArrayLength(); i++) { 
+    /*
     pq.insert(p1);
     pq.insert(p2);
     pq.insert(p3);
     pq.insert(p4);
     pq.insert(p5);
     pq.insert(p6);
-    assertEquals(p1, pq.retrieve()); // FAILS
+    */
+    /*
+    pq2:
+     0  1  2  3  4  5
+    |p1|p2|  |p3|p4|p5|
+        f  b
+    */
+    assertEquals(p2, pq2.retrieve()); // FAILS
+    /*
+    |p1|  |  |p3|p4|p5|
+     f     b
+    */
+    pq2.insert(p2); 
+    /*
+    |p1|  |p2|p3|p4|p5|
+     f  b
+    */
+    assertEquals(pq2.personArray[2], p2);
+    pq2.insert(p6); 
+    /*
+    after reserve:
+     0  1  2  3  4  5  6  7  8  9  10 11
+    |p2|p3|p4|p5|p1|  |  |  |  |  |  |  |
+                 f                    b 
+
+    after insert:
+    |p2|p3|p4|p5|p1|  |  |  |  |  |  |p6|
+                 f                 b 
+    */
+
     // PASSES if INITIAL_ARRAY_SIZE > numTestObjects
   }
 

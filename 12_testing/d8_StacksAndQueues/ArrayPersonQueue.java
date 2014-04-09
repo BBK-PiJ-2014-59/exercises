@@ -11,31 +11,34 @@ public class ArrayPersonQueue implements PersonQueue {
     // System.out.println(hoo());
   }
 
-  /**
-   * The array that contains the people. When full, a new one
-   * is created.
-   */
-  //private ArrayPerson[] personArray;
-  private Person[] personArray; // TODO: create separate PersonArray class so you can have elem setter for testing purposes (as you don't want to make personArray public) and define length (as you don't want to make INITIAL_ARRAY_SIZE public). 
-
-  /**
-   * index of the front of the queue (ie where to take from) 
-   */
-  private int front;
-  /**
-   * index of the back of the queue (ie where to put one) 
-   */
-  private int back; 
-  /**
-   * The initial personArray.length of the array.
-   */
-  private static int INITIAL_ARRAY_SIZE = 6;
-
   public ArrayPersonQueue() {
     personArray = new ArrayPerson[INITIAL_ARRAY_SIZE];
     front = 0;
     back = 0;
   }
+
+  /**
+   * The array that contains the people. When full, a new one
+   * is created.
+   */
+  // private Person[] personArray; // TODO: create separate PersonArray class so you can have elem setter for testing purposes (as you don't want to make personArray public) and define length (as you don't want to make INITIAL_ARRAY_SIZE public). 
+  public Person[] personArray; // TODO: create separate PersonArray class so you can have elem setter for testing purposes (as you don't want to make personArray public) and define length (as you don't want to make INITIAL_ARRAY_SIZE public). 
+
+  /**
+   * index of the front of the queue (ie where to take from) 
+   */
+  //private int front;
+  public int front;
+  /**
+   * index of the back of the queue (ie where to put one) 
+   */
+  //private int back; 
+  public int back; 
+  /**
+   * The initial personArray.length of the array.
+   */
+  private static int INITIAL_ARRAY_SIZE = 6;
+
 
 
   /* 
