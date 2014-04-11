@@ -128,38 +128,46 @@ public class ArrayPersonQueue implements PersonQueue {
 
 
   private void reserveMoreMemory() {
-    System.out.println("START RESERVE");
-    System.out.println("back 1: " + back);
-    System.out.println("front 1: " + front);
+    //System.out.println("START RESERVE");
+    //System.out.println("back 1: " + back);
+    //System.out.println("front 1: " + front);
     Person[] biggerArray = new ArrayPerson[personArray.length*2];
-    System.out.println("big length: " + biggerArray.length);
+    //System.out.println("big length: " + biggerArray.length);
     
     int newFront = 0;
     int i = 0;
       
     // loop1 
+    System.out.println("LOOP1");
     if (back < personArray.length - 1) {
       //for (i = back+1, j = 0; i < personArray.length; i++, j++) {
       for (i = back+1, newFront = 0; i < personArray.length; i++, newFront++) {
         biggerArray[newFront] = personArray[i];
-        System.out.println("i, newFront: " + i + ", " + newFront);
+        // System.out.println("i, newFront: " + i + ", " + newFront);
       }
-      System.out.println("newFront 1: " + newFront);
+      // System.out.println("newFront 1: " + newFront);
     }
 
     // loop2 
+    System.out.println("LOOP2");
     if (back > front) {
-      for (; i <= front; i++) {
-        biggerArray[i] = personArray[i];
+      // for (; i <= front; i++) {
+      //newFront--;
+      System.out.println("newFront: " + newFront);
+      for (int j=0; personArray[j] != null; j++) {
+        biggerArray[newFront] = personArray[j];
+        if (personArray[j+1] != null) {
+          newFront++;
+        }
       }
-      System.out.println("newFront 2: " + newFront);
+      //System.out.println("newFront 2: " + newFront);
     }
 
     front = newFront;
     personArray = biggerArray;
     back = personArray.length - 1;
-    System.out.println("back 2: " + back);
-    System.out.println("front 2: " + front);
+    //System.out.println("back 2: " + back);
+    //System.out.println("front 2: " + front);
     System.out.println("END RESERVE");
   }
 

@@ -94,30 +94,28 @@ public class PersonQueueTest {
     // todo: make this test any length of array
     System.out.println("\n\ntestsReservesMoreMemory");
     /*
-    pq.insert(p1);
-    pq.insert(p2);
-    pq.insert(p3);
-    pq.insert(p4);
-    pq.insert(p5);
-    pq.insert(p6);
-    */
-    /*
     pq2:
      0  1  2  3  4  5
     |p1|p2|  |p3|p4|p5|
         f  b
     */
-    assertEquals(p2, pq2.retrieve()); // FAILS
+    assertEquals(p2, pq2.retrieve()); 
     /*
     |p1|  |  |p3|p4|p5|
      f     b
     */
+    assertEquals(pq2.personArray[0], p1);
     pq2.insert(p2); 
     /*
     |p1|  |p2|p3|p4|p5|
      f  b
     */
+    assertEquals(pq2.personArray[0], p1);
+    assertEquals(pq2.personArray[1], null);
     assertEquals(pq2.personArray[2], p2);
+    assertEquals(pq2.personArray[3], p3);
+    assertEquals(pq2.personArray[4], p4);
+    assertEquals(pq2.personArray[5], p5);
     pq2.insert(p6); 
     /*
     after reserve:
@@ -126,11 +124,18 @@ public class PersonQueueTest {
                  f                    b 
 
     after insert:
+     0  1  2  3  4  5  6  7  8  9  10 11
     |p2|p3|p4|p5|p1|  |  |  |  |  |  |p6|
                  f                 b 
     */
-
-    // PASSES if INITIAL_ARRAY_SIZE > numTestObjects
+    assertEquals(pq2.personArray[0], p2);
+    assertEquals(pq2.personArray[1], p3);
+    assertEquals(pq2.personArray[2], p4);
+    assertEquals(pq2.personArray[3], p5); 
+    assertEquals(pq2.personArray[4], p1); 
+    assertEquals(pq2.front, 4); // FAIL
+    assertEquals(p1, pq2.retrieve());
+    assertEquals(p5, pq2.retrieve());
   }
 
   @Test
