@@ -136,6 +136,12 @@ public class PersonQueueTest {
     assertEquals(pq2.front, 4); // FAIL
     assertEquals(p1, pq2.retrieve());
     assertEquals(p5, pq2.retrieve());
+    assertEquals(p4, pq2.retrieve());
+    assertEquals(p3, pq2.retrieve());
+    assertEquals(p2, pq2.retrieve());
+    assertEquals(p6, pq2.retrieve());
+    assertEquals(null, pq2.retrieve());
+    assertEquals(null, pq2.retrieve());
   }
 
   @Test
@@ -162,21 +168,6 @@ public class PersonQueueTest {
     assertNull(pq.retrieve());
     pq.insert(p1);
     assertEquals(p1, pq.retrieve()); 
-  }
-
-  @Test
-  public void testsBeforeReserveMoreMemory() {
-    System.out.println("\n\ntestsBeforeReserveMoreMemory");
-  }
-
-  @Test
-  public void testsAfterReserveMoreMemory() {
-    System.out.println("\n\ntestsAfterReserveMoreMemory");
-  }
-
-  @Test
-  public void testsDoesntWasteSpace() { // ie if we keep alternating insert-retrieve will it shift/double?
-    System.out.println("\n\ntestsDoesntWasteSpace");
   }
 
   /*
