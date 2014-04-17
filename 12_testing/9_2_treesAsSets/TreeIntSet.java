@@ -44,6 +44,7 @@ public class TreeIntSet implements IntSet {
   }
 
   public boolean containsVerbose(int n) {
+    System.out.println("contains: " + contains(n));
     System.out.println(this.value);
     if (n == this.value) {
       return true;
