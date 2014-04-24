@@ -1,5 +1,9 @@
 public interface User {
-  void setID(int id);
+  boolean setID(int id);
   int getID();
   String getName();
+  String printNameID();
+  User getNext();
+  void setNext(User u);
+  boolean nextNotNull();
 }
