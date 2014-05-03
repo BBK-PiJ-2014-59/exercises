@@ -1,6 +1,38 @@
 public class UsersImpl implements Users {
 
+  private final int minID = 100;
+  private int nextID = minID;
   User firstUser = null;
+
+  public int getID(String name) {
+    System.out.println("Searching for name " + name);
+
+    if (firstUser == null) {
+      User newUser = new UserImpl(name);
+      int newID = nextID++;
+      newUser.setID(newID);
+      add(newUser);
+      return newID;
+    }
+
+    User curUser = firstUser; 
+    do {
+      if (curUser.getName().equals(name)) {
+        //System.out.println("Found ID " + id + " in User object with name " + curUser.getName());
+        System.out.println("yoda");
+        return curUser.getID();
+      }
+      //System.out.println("curUser: " + curUser.getName());
+      curUser = curUser.getNext(); 
+    } while (curUser != null); 
+    System.out.println(name + " does not exist yet.");
+
+    User newUser = new UserImpl(name);
+    int newID = nextID++;
+    newUser.setID(newID);
+    add(newUser);
+    return newID;
+  }
 
   public boolean nameExists(String name) {
     System.out.println("Searching for name " + name);
@@ -56,5 +88,6 @@ public class UsersImpl implements Users {
       return true;
     }
   }
+
 
 }

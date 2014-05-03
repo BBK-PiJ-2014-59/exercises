@@ -3,7 +3,6 @@ import static org.junit.Assert.*;
 
 public class LibraryTests {
   
-  static int testno = 0;
   Book book;
   String myTitle1;
   String myAuthorName1;
@@ -11,8 +10,12 @@ public class LibraryTests {
   User u1; 
   User u2; 
   User u3; 
+  User u4; 
 
   Users users;
+
+  Library myLibrary;
+  String myLibName;
 
   @Before
   public void buildUp() {
@@ -24,7 +27,9 @@ public class LibraryTests {
     myAuthorName1 = "Mark Twain";
     book = new BookImpl(myTitle1, myAuthorName1);
     users = new UsersImpl();
-
+    myLibName = "UCL Library";
+    myLibrary = new MockLibrary(myLibName);
+    
   }
 
   @Test
@@ -36,12 +41,11 @@ public class LibraryTests {
   @Test
   public void testBookGetAuthorName() {
     System.out.println("\n\nTEST 2");
-    System.out.println("TEST " + testno++);
     assertEquals(book.getAuthorName(), myAuthorName1);
   }
   
   @Test
-  public void testUniqUserID() {
+  public void testUsersUniqUserID() {
     System.out.println("\n\nTEST 3");
 
     assertEquals(true, users.add(u1));
@@ -65,12 +69,44 @@ public class LibraryTests {
   } 
 
   @Test
-  public void testUniqUserName() {
+  public void testUsersUniqUserName() {
     System.out.println("\n\nTEST 4");
     assertEquals(true, users.add(u1));
     u3 = new UserImpl("Jesse");
     u3.setID(126);
     assertEquals(false, users.add(u3));
+    u4 = new UserImpl("Craig");
+    assertEquals(true, users.add(u4));
   } 
+
+  @Test 
+  public void testLibraryGetID_NoUsers() {
+    System.out.println("\n\nTEST 7");
+    assertEquals(100, myLibrary.getID("Bobby")); 
+  }
+  @Test
+  public void testLibraryGetID_OneUser_Found() {
+    System.out.println("\n\nTEST 8");
+    myLibrary.getID("Bobby"); 
+    assertEquals(100, myLibrary.getID("Bobby")); 
+  }
+  @Test
+  public void testLibraryGetID_OneUser_NotFound() {
+    System.out.println("\n\nTEST 9");
+    myLibrary.getID("Bobby"); 
+    assertEquals(101, myLibrary.getID("Jane")); 
+    assertEquals(100, myLibrary.getID("Bobby")); 
+    assertEquals(101, myLibrary.getID("Jane")); 
+  }
+  @Test
+  public void testLibraryGetID_TwoUsers_NotFound() {
+    System.out.println("\n\nTEST 10");
+    myLibrary.getID("Bobby"); 
+    assertEquals(101, myLibrary.getID("Jane")); 
+    assertEquals(100, myLibrary.getID("Bobby")); 
+    assertEquals(101, myLibrary.getID("Jane")); 
+    assertEquals(102, myLibrary.getID("Cooter")); 
+    assertEquals(102, myLibrary.getID("Cooter")); 
+  }
 
 }

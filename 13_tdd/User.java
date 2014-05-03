@@ -6,4 +6,6 @@ public interface User {
   User getNext();
   void setNext(User u);
   boolean nextNotNull();
+  int register(Library lib);
+  String getLibrary();
 }

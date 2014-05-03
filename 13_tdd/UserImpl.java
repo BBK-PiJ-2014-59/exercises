@@ -3,10 +3,13 @@ public class UserImpl implements User {
   private String name;
   private int ID;
   private User next;
+  private Library library;
+
 
   public UserImpl(String name) {
     this.name = name;    
     this.next = null;
+    this.library = null;
   }
 
   public boolean setID(int ID) {
@@ -42,4 +45,17 @@ public class UserImpl implements User {
     }
   }
   
+  public int register(Library library) {
+    this.library = library;
+    return library.getID(getName()); 
+  }
+
+  public String getLibrary() {
+    if (library != null) {
+      return library.getName();
+    } else {
+      return "NOT REGISTERED";
+    }
+  }
+
 }
