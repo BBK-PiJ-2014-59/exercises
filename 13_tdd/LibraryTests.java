@@ -108,5 +108,25 @@ public class LibraryTests {
     assertEquals(102, myLibrary.getID("Cooter")); 
     assertEquals(102, myLibrary.getID("Cooter")); 
   }
-
+  @Test
+  public void testLibraryFindBook_noBooks() {
+    System.out.println("\n\nTEST 11");
+    assertNull(myLibrary.findBook("Sabbath's Theater", "Philip Roth")); 
+  }
+  @Test
+  public void testLibraryAddBook_toEmptyList() {
+    System.out.println("\n\nTEST 12");
+    myLibrary.addBook("Sabbath's Theater", "Philip Roth");
+    Book myBook = myLibrary.findBook("Sabbath's Theater", "Philip Roth"); 
+    assertEquals("Sabbath's Theater", myBook.getTitle());
+  }
+  @Test public void testLibraryAddBook_toListOfOne() {
+    System.out.println("\n\nTEST 13");
+    myLibrary.addBook("Title1", "Author1");
+    myLibrary.addBook("Title2", "Author2");
+    Book myBook = myLibrary.findBook("Title1", "Author1"); 
+    assertEquals("Title1", myBook.getTitle());
+    myBook = myLibrary.findBook("Title2", "Author2"); 
+    assertEquals("Title2", myBook.getTitle());
+  }
 }
