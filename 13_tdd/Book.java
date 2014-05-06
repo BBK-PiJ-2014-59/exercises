@@ -3,4 +3,6 @@ public interface Book {
   String getAuthorName();
   void setNext(Book book);
   Book getNext();
+  boolean isTaken();
+  void setTaken(Boolean taken);
 }

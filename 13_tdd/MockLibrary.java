@@ -38,6 +38,22 @@ public class MockLibrary implements Library {
     }
     return null;
   }
+
+  public Book findBook(String title) {
+    if (bookList == null) {
+      return null;
+    } else {
+      Book curBook = bookList;
+      do {
+        if (curBook.getTitle().equals(title)) {
+          return curBook;
+        }
+        curBook = curBook.getNext();
+      } while (curBook != null);
+    }
+    return null;
+  }
+
   public void addBook(String title, String author) {
     if (bookList == null) {
       bookList = new BookImpl(title, author); 
@@ -46,6 +62,40 @@ public class MockLibrary implements Library {
       newBook.setNext(bookList);
       bookList = newBook;
     }
+  }
+  public Book takeBook(String title) {
+    Book curBook = null;
+    if (bookList != null) {
+      curBook = bookList; 
+      do {
+        if (curBook.getTitle().equals(title)) {
+          System.out.println("Yoda");
+          if (curBook.isTaken()) {
+            return null;
+          } else { 
+            curBook.setTaken(true);
+            return curBook;
+          }
+        }
+        curBook = curBook.getNext();
+      } while (curBook != null);
+    }
+    return null;
+  }
+
+
+  public void returnBook(Book book) {
+    Book curBook = null;
+    if (bookList != null) {
+      curBook = bookList;
+      do {
+        if (curBook.equals(book)) {
+          curBook.setTaken(false);
+          return;
+        }
+        curBook = curBook.getNext();
+      } while (curBook != null);
+    } 
   }
 
 }

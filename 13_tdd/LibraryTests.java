@@ -120,7 +120,8 @@ public class LibraryTests {
     Book myBook = myLibrary.findBook("Sabbath's Theater", "Philip Roth"); 
     assertEquals("Sabbath's Theater", myBook.getTitle());
   }
-  @Test public void testLibraryAddBook_toListOfOne() {
+  @Test
+  public void testLibraryAddBook_toListOfOne() {
     System.out.println("\n\nTEST 13");
     myLibrary.addBook("Title1", "Author1");
     myLibrary.addBook("Title2", "Author2");
@@ -129,4 +130,44 @@ public class LibraryTests {
     myBook = myLibrary.findBook("Title2", "Author2"); 
     assertEquals("Title2", myBook.getTitle());
   }
+  @Test
+  public void test_Library_Book_isTaken_false() {
+    System.out.println("\n\nTEST 14");
+    myLibrary.addBook("Title1", "Author1");
+    Book myBook = myLibrary.findBook("Title1", "Author1"); 
+    assertEquals(false, myBook.isTaken());
+  }
+  @Test
+  public void test_Library_Book_isTaken_true() {
+    System.out.println("\n\nTEST 15");
+    myLibrary.addBook("Title1", "Author1");
+    myLibrary.addBook("Title2", "Author2");
+    myLibrary.takeBook("Title1");
+    Book myBook = myLibrary.findBook("Title1", "Author1"); 
+    Book myBook2 = myLibrary.findBook("Title1", "Author1"); 
+    assertEquals(true, myBook.isTaken());
+    assertEquals(true, myBook2.isTaken());
+  }
+  @Test
+  public void test_Library_takeBook_alreadyTaken() {
+    System.out.println("\n\nTEST 16");
+    myLibrary.addBook("Title1", "Author1");
+    Book myBook = myLibrary.takeBook("Title1");
+    assertTrue(myBook.isTaken());
+    assertNull(myLibrary.takeBook("Title1"));
+  }
+  @Test
+  public void test_Library_returnBook() {
+    System.out.println("\n\nTEST 17");
+    myLibrary.addBook("Title1", "Author1");
+    myLibrary.addBook("Title2", "Author2");
+    myLibrary.addBook("Title3", "Author3");
+    Book myBook = myLibrary.takeBook("Title2");
+    assertTrue(myBook.isTaken());
+    System.out.println("yoda");
+    myLibrary.returnBook(myBook);
+    assertFalse(myLibrary.findBook(myBook.getTitle()).isTaken());
+  }
+  
+  
 }

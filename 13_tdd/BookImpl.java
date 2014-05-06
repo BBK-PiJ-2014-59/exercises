@@ -3,11 +3,13 @@ public class BookImpl implements Book {
   private final String title;
   private final String authorName;
   private Book next;
+  private boolean taken;
 
   public BookImpl(String title, String authorName) {
     this.title = title;
     this.authorName = authorName;
     next = null;
+    taken = false;
   }
 
   public String getTitle() {
@@ -26,4 +28,11 @@ public class BookImpl implements Book {
     return next;
   }
 
+  public boolean isTaken() {
+    return taken;
+  }
+
+  public void setTaken(Boolean taken) {
+    this.taken = taken;
+  }
 }
