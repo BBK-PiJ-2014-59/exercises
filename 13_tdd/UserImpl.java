@@ -58,4 +58,7 @@ public class UserImpl implements User {
     }
   }
 
+  public int getNumberBooksOut() {
+    return 0;
+  }
 }

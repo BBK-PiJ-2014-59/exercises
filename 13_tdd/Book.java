@@ -1,3 +1,6 @@
+/**
+  * A library book
+  */
 public interface Book {
   String getTitle();
   String getAuthorName();
@@ -5,4 +8,12 @@ public interface Book {
   Book getNext();
   boolean isTaken();
   void setTaken(Boolean taken);
+  /**
+    * @return User currently borrowing or null if not checked out.
+    */
+  User getBorrower();
+  /**
+    * @param User to check book out to.
+    */
+  void setBorrower(User user);
 }

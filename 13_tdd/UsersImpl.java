@@ -4,6 +4,19 @@ public class UsersImpl implements Users {
   private int nextID = minID;
   User firstUser = null;
 
+  public int count() {
+    User curUser = firstUser;
+    if (curUser == null) {
+      return 0;
+    }
+    int total = 0;
+    do {
+      curUser = curUser.getNext();
+      ++total;
+    } while (curUser != null);
+    return total;
+  }
+
   public int getID(String name) {
     System.out.println("Searching for name " + name);
 
@@ -89,5 +102,18 @@ public class UsersImpl implements Users {
     }
   }
 
+  public User getUserByID(int userID) {
+    User curUser = firstUser;
+    if (curUser == null) {
+      return null; 
+    }
+    do {
+      if (curUser.getID() == userID) {
+        return curUser;
+      }  
+      curUser = curUser.getNext();
+    } while (curUser != null);   
+    return null; 
+  }
 
 }

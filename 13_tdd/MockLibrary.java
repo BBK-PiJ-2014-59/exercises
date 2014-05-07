@@ -11,6 +11,10 @@ public class MockLibrary implements Library {
     bookList = null;
   }
 
+  public void lendBookToUser(Book book, User user) {
+    book.setBorrower(user);
+  }
+
   public String getName() {
     return name; 
   }
@@ -23,6 +27,11 @@ public class MockLibrary implements Library {
   public int getID(String userGivenName) {
     return users.getID(userGivenName);
   }
+
+  public User getUserByID(int userID) {
+    return users.getUserByID(userID);
+  }
+
   public Book findBook(String title, String author) {
     if (bookList == null) {
       return null;
@@ -54,7 +63,7 @@ public class MockLibrary implements Library {
     return null;
   }
 
-  public void addBook(String title, String author) {
+  public Book addBook(String title, String author) {
     if (bookList == null) {
       bookList = new BookImpl(title, author); 
     } else {
@@ -62,7 +71,9 @@ public class MockLibrary implements Library {
       newBook.setNext(bookList);
       bookList = newBook;
     }
+    return bookList;
   }
+
   public Book takeBook(String title) {
     Book curBook = null;
     if (bookList != null) {
@@ -96,6 +107,38 @@ public class MockLibrary implements Library {
         curBook = curBook.getNext();
       } while (curBook != null);
     } 
+  }
+
+  public int getReaderCount() {
+    return users.count();
+  }
+
+  public int getBookCount() {
+    Book curBook = bookList;    
+    if (curBook == null) {
+      return 0;
+    }
+    int total = 0;
+    do {
+      curBook = curBook.getNext(); 
+      total++;
+    } while (curBook != null);
+    return total;
+  }
+
+  public int getBookBorrowedCount() {
+    Book curBook = bookList;
+    if (curBook == null) {
+      return 0;
+    }
+    int total = 0;
+    do {
+      if (curBook.isTaken()) {
+        total++;
+      }
+      curBook = curBook.getNext();
+    } while (curBook != null);
+    return total;
   }
 
 }

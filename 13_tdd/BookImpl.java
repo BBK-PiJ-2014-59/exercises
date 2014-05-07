@@ -12,6 +12,10 @@ public class BookImpl implements Book {
     taken = false;
   }
 
+  public User getBorrower() {
+    return null;
+  }
+
   public String getTitle() {
     return title;
   }

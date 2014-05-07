@@ -168,6 +168,90 @@ public class LibraryTests {
     myLibrary.returnBook(myBook);
     assertFalse(myLibrary.findBook(myBook.getTitle()).isTaken());
   }
+  @Test  
+  public void test_Library_getReaderCount_OneUser() {
+    System.out.println("\n\nTEST 18");
+    myLibrary.getID("Jane"); 
+    assertEquals(1, myLibrary.getReaderCount());
+  }
+  @Test  
+  public void test_Library_getReaderCount_NoUsers() {
+    System.out.println("\n\nTEST 18.1");
+    assertEquals(0, myLibrary.getReaderCount());
+  }
+  @Test
+  public void test_Library_getBookCount_noBooks() {
+    System.out.println("\n\nTEST 19");
+    assertEquals(0, myLibrary.getBookCount());
+  }
+  @Test
+  public void test_Library_getBookCount_oneBook() {
+    System.out.println("\n\nTEST 20");
+    myLibrary.addBook("Title1", "Author1");
+    assertEquals(1, myLibrary.getBookCount());
+  }
+  @Test
+  public void test_Library_getBookCount_2Books() {
+    System.out.println("\n\nTEST 21");
+    myLibrary.addBook("Title1", "Author1");
+    myLibrary.addBook("Title2", "Author2");
+    assertEquals(2, myLibrary.getBookCount());
+  }
+  @Test
+  public void test_Library_getBookBorrowedCount_noBooks() {
+    System.out.println("\n\nTEST 22");
+    assertEquals(0, myLibrary.getBookBorrowedCount());
+  }
+  @Test
+  public void test_Library_getBookBorrowedCount_1Book() {
+    System.out.println("\n\nTEST 23");
+    myLibrary.addBook("Title1", "Author1");
+    myLibrary.addBook("Title2", "Author2");
+    myLibrary.takeBook("Title1");
+    assertEquals(1, myLibrary.getBookBorrowedCount());
+  }
+  @Test
+  public void test_Library_getBookBorrowedCount_2Books() {
+    System.out.println("\n\nTEST 24");
+    myLibrary.addBook("Title1", "Author1");
+    myLibrary.addBook("Title2", "Author2");
+    myLibrary.addBook("Title3", "Author3");
+    myLibrary.addBook("Title4", "Author4");
+    Book myBook = myLibrary.takeBook("Title1");
+    myLibrary.takeBook("Title2");
+    myLibrary.takeBook("Title3");
+    myLibrary.returnBook(myBook);
+    assertEquals(2, myLibrary.getBookBorrowedCount());
+  }
+  //@Test 
+  public void test_User_getNumberBooksOut_noBooks() {
+    System.out.println("\n\nTEST 24.1");
+    int janeID = myLibrary.getID("Jane"); 
+    assertEquals(0, myLibrary.getUserByID(janeID).getNumberBooksOut());
+  }
+  //@Test 
+  public void test_User_getNumberBooksOut_nonExistentUserID() {
+    System.out.println("\n\nTEST 24.2");
+    int fakeID = 10000; 
+    //assertEquals(0, myLibrary.getUserByID(fakeID).getNumberBooksOut());
+  }
   
-  
+  @Test
+  public void test_Library_getUserByID_exists() {
+    System.out.println("\n\nTEST 25.1");
+    int janeID = myLibrary.getID("Jane"); 
+    User jane = myLibrary.getUserByID(janeID);
+    assertEquals(janeID,jane.getID());
+  }
+
+  @Test
+  public void test_Book_getBorrower() {
+    System.out.println("\n\nTEST 25.2");
+    int janeID = myLibrary.getID("Jane"); 
+    User jane = myLibrary.getUserByID(janeID);
+    Book myBook = myLibrary.addBook("Title1", "Author1");
+    myLibrary.lendBookToUser(myBook,jane);
+    assertEquals(jane,myBook.getBorrower());
+  }
+    
 }
