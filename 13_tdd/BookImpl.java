@@ -4,6 +4,7 @@ public class BookImpl implements Book {
   private final String authorName;
   private Book next;
   private boolean taken;
+  private User borrower;
 
   public BookImpl(String title, String authorName) {
     this.title = title;
@@ -13,8 +14,13 @@ public class BookImpl implements Book {
   }
 
   public User getBorrower() {
-    return null;
+    return borrower;
   }
+
+  public void setBorrower(User u) {
+    borrower = u;
+  }
+
 
   public String getTitle() {
     return title;

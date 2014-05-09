@@ -4,12 +4,28 @@ public class UserImpl implements User {
   private int ID;
   private User next;
   private Library library;
+  private Title myTitleList;
 
 
   public UserImpl(String name) {
     this.name = name;    
     this.next = null;
     this.library = null;
+  }
+
+  public void addToMyTitleList(String title) {
+    Title newTitle;
+    newTitle = new TitleImpl(title);  
+    if (myTitleList == null) {
+      myTitleList = newTitle;
+    } else {
+      newTitle.setNext(myTitleList);
+      myTitleList = newTitle;
+    }
+  }
+
+  public Title getTitles() {
+    return myTitleList;
   }
 
   public boolean setID(int ID) {

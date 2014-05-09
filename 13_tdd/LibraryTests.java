@@ -223,18 +223,6 @@ public class LibraryTests {
     myLibrary.returnBook(myBook);
     assertEquals(2, myLibrary.getBookBorrowedCount());
   }
-  //@Test 
-  public void test_User_getNumberBooksOut_noBooks() {
-    System.out.println("\n\nTEST 24.1");
-    int janeID = myLibrary.getID("Jane"); 
-    assertEquals(0, myLibrary.getUserByID(janeID).getNumberBooksOut());
-  }
-  //@Test 
-  public void test_User_getNumberBooksOut_nonExistentUserID() {
-    System.out.println("\n\nTEST 24.2");
-    int fakeID = 10000; 
-    //assertEquals(0, myLibrary.getUserByID(fakeID).getNumberBooksOut());
-  }
   
   @Test
   public void test_Library_getUserByID_exists() {
@@ -254,4 +242,43 @@ public class LibraryTests {
     assertEquals(jane,myBook.getBorrower());
   }
     
+  @Test
+  public void test_User_getTitles_noTitles() {
+    System.out.println("\n\nTEST 26");
+    int janeID = myLibrary.getID("Jane"); 
+    User jane = myLibrary.getUserByID(janeID);   
+    assertNull(null, jane.getTitles()); 
+  }
+
+  @Test
+  public void test_User_getTitles_1Title() {
+    System.out.println("\n\nTEST 27");
+    Book book1 = myLibrary.addBook("Title1", "Author1");
+    int janeID = myLibrary.getID("Jane"); 
+    User jane = myLibrary.getUserByID(janeID);   
+    myLibrary.lendBookToUser(book1,jane);
+    Title myTitleList = jane.getTitles();  // npe? 
+    assertEquals(book1.getTitle(),myTitleList.getTitle());
+  }
+
+  @Test
+    public void test_User_getTitles_2Titles() {
+    System.out.println("\n\nTEST 28");
+    int janeID = myLibrary.getID("Jane"); 
+    User jane = myLibrary.getUserByID(janeID);   
+    Book book1 = myLibrary.addBook("Title1", "Author1");
+    Book book2 = myLibrary.addBook("Title2", "Author2");
+    Book book3 = myLibrary.addBook("Title3", "Author3");
+    myLibrary.lendBookToUser(book1,jane);
+    myLibrary.lendBookToUser(book2,jane);
+    Title myTitleList = jane.getTitles();  // npe? 
+    assertEquals(book2.getTitle(),myTitleList.getTitle());
+    assertEquals(book1.getTitle(),myTitleList.getNext().getTitle());
+    assertNull(myTitleList.getNext().getNext());
+  }
+
+  @Test
+    public void test_User_getTitles_100Titles() {
+      // this is going to take some comparing of lists.  Can we use something that'll do it for us?
+    }
 }

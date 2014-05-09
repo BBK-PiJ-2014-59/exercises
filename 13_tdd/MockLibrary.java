@@ -13,6 +13,7 @@ public class MockLibrary implements Library {
 
   public void lendBookToUser(Book book, User user) {
     book.setBorrower(user);
+    user.addToMyTitleList(book.getTitle());
   }
 
   public String getName() {
