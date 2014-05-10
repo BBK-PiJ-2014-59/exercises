@@ -13,6 +13,14 @@ public class UserImpl implements User {
     this.library = null;
   }
 
+  public void deleteFromMyTitleList(String title) {
+    if (myTitleList.getTitle() == title) {
+      Title deleteMe = myTitleList; 
+      myTitleList = myTitleList.getNext(); 
+      deleteMe.setNext(null);
+    }
+  }
+
   public void addToMyTitleList(String title) {
     Title newTitle;
     newTitle = new TitleImpl(title);  

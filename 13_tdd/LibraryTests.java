@@ -82,31 +82,31 @@ public class LibraryTests {
   @Test 
   public void testLibraryGetID_NoUsers() {
     System.out.println("\n\nTEST 7");
-    assertEquals(100, myLibrary.getID("Bobby")); 
+    assertEquals(101, myLibrary.getID("Bobby")); 
   }
   @Test
   public void testLibraryGetID_OneUser_Found() {
     System.out.println("\n\nTEST 8");
     myLibrary.getID("Bobby"); 
-    assertEquals(100, myLibrary.getID("Bobby")); 
+    assertEquals(101, myLibrary.getID("Bobby")); 
   }
   @Test
   public void testLibraryGetID_OneUser_NotFound() {
     System.out.println("\n\nTEST 9");
     myLibrary.getID("Bobby"); 
-    assertEquals(101, myLibrary.getID("Jane")); 
-    assertEquals(100, myLibrary.getID("Bobby")); 
-    assertEquals(101, myLibrary.getID("Jane")); 
+    assertEquals(102, myLibrary.getID("Jane")); 
+    assertEquals(101, myLibrary.getID("Bobby")); 
+    assertEquals(102, myLibrary.getID("Jane")); 
   }
   @Test
   public void testLibraryGetID_TwoUsers_NotFound() {
     System.out.println("\n\nTEST 10");
     myLibrary.getID("Bobby"); 
-    assertEquals(101, myLibrary.getID("Jane")); 
-    assertEquals(100, myLibrary.getID("Bobby")); 
-    assertEquals(101, myLibrary.getID("Jane")); 
-    assertEquals(102, myLibrary.getID("Cooter")); 
-    assertEquals(102, myLibrary.getID("Cooter")); 
+    assertEquals(102, myLibrary.getID("Jane")); 
+    assertEquals(101, myLibrary.getID("Bobby")); 
+    assertEquals(102, myLibrary.getID("Jane")); 
+    assertEquals(103, myLibrary.getID("Cooter")); 
+    assertEquals(103, myLibrary.getID("Cooter")); 
   }
   @Test
   public void testLibraryFindBook_noBooks() {
@@ -172,12 +172,12 @@ public class LibraryTests {
   public void test_Library_getReaderCount_OneUser() {
     System.out.println("\n\nTEST 18");
     myLibrary.getID("Jane"); 
-    assertEquals(1, myLibrary.getReaderCount());
+    assertEquals(2, myLibrary.getReaderCount());
   }
   @Test  
   public void test_Library_getReaderCount_NoUsers() {
     System.out.println("\n\nTEST 18.1");
-    assertEquals(0, myLibrary.getReaderCount());
+    assertEquals(1, myLibrary.getReaderCount());
   }
   @Test
   public void test_Library_getBookCount_noBooks() {
@@ -248,6 +248,7 @@ public class LibraryTests {
     int janeID = myLibrary.getID("Jane"); 
     User jane = myLibrary.getUserByID(janeID);   
     assertNull(null, jane.getTitles()); 
+  
   }
 
   @Test
@@ -262,7 +263,7 @@ public class LibraryTests {
   }
 
   @Test
-    public void test_User_getTitles_2Titles() {
+  public void test_User_getTitles_2Titles() {
     System.out.println("\n\nTEST 28");
     int janeID = myLibrary.getID("Jane"); 
     User jane = myLibrary.getUserByID(janeID);   
@@ -278,7 +279,14 @@ public class LibraryTests {
   }
 
   @Test
-    public void test_User_getTitles_100Titles() {
-      // this is going to take some comparing of lists.  Can we use something that'll do it for us?
-    }
+  public void User_getTitles_AFTER_Library_returnBook() {
+    System.out.println("\n\nTEST 29");
+    int janeID = myLibrary.getID("Jane"); 
+    User jane = myLibrary.getUserByID(janeID);   
+    Book book1 = myLibrary.addBook("Title1", "Author1");
+    myLibrary.lendBookToUser(book1,jane);
+    myLibrary.returnBook(book1);
+    Title myTitleList = jane.getTitles();  // npe? 
+    assertNull(null, jane.getTitles()); 
+  }
 }

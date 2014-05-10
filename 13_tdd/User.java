@@ -17,5 +17,6 @@ public interface User {
     * add title of book being borrowed to myTitleList
     */
   void addToMyTitleList(String title);
+  void deleteFromMyTitleList(String title);
 
 }

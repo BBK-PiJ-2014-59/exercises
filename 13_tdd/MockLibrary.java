@@ -4,11 +4,15 @@ public class MockLibrary implements Library {
   private int maxBooksPerUser;
   private Users users;
   private Book bookList;
+  private int noBorrowerID;
+  private User noBorrower;
 
   public MockLibrary(String name) {
     this.name = name;
     users = new UsersImpl();
     bookList = null;
+    noBorrowerID = getID("noBorrower");
+    noBorrower = getUserByID(noBorrowerID);
   }
 
   public void lendBookToUser(Book book, User user) {
@@ -86,6 +90,7 @@ public class MockLibrary implements Library {
             return null;
           } else { 
             curBook.setTaken(true);
+            curBook.setBorrower(noBorrower);
             return curBook;
           }
         }
@@ -101,8 +106,16 @@ public class MockLibrary implements Library {
     if (bookList != null) {
       curBook = bookList;
       do {
+        System.out.println("YODa");
         if (curBook.equals(book)) {
           curBook.setTaken(false);
+          if (curBook.getBorrower() == null) {
+            System.out.println("borrower: null");
+          } else {
+            System.out.println("borrower: " + curBook.getBorrower().getName());
+          }
+          curBook.getBorrower().deleteFromMyTitleList(book.getTitle());
+          curBook.setBorrower(null);
           return;
         }
         curBook = curBook.getNext();
