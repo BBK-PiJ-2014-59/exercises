@@ -6,7 +6,22 @@ public interface Library {
   int getMaxBooksPerUser();
   void setMaxBooksPerUser(int max);
   int getID(String userGivenName);
-  // User getUserByName(String userGivenName);
+  /** 
+    * return the name of the person that is borrowing a specific given title at the moment; 
+    * if nobody is borrowing the book, or the book does not exist in the library,
+    * you must return null (not an empty String).
+    * @param Title of book
+    * @return name of User borrowing book
+    */
+  String getBorrower(Title t);
+  /** 
+    * return a list (or an array) with all the users, borrowing or not.
+    */
+  User getUsers();
+  /** 
+    * return a list (or an array) with all the users that are borrowing books at the moment. 
+    */
+  User getBorrowers();
   /**
     * @param Book
     * @param User 

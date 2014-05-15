@@ -289,4 +289,59 @@ public class LibraryTests {
     Title myTitleList = jane.getTitles();  // npe? 
     assertNull(null, jane.getTitles()); 
   }
+
+  // to do the above properly we need sorted lists
+
+  @Test
+  public void Library_getBorrowers_noBorrowers() {
+    System.out.println("\n\nTEST 29.1");
+    // to test this: getBorrowers returns list of Users borrowing. Need to compare this against all the users found to
+    // actually be borrowing ie traverse the list of users and see who has a myTitleList which is not null. Or (if we're 
+    // going to keep (eventually) all the borrow info in Book) traverse the Book list for all borrowers. (That debate is 
+    // about where to keep borrowing info: in Book, in User, both, elsewhere, or all/some of the above?)
+    assertEquals(null,myLibrary.getBorrowers());
+  }
+
+  @Test
+  public void Library_getBorrowers_1Borrower() {
+    System.out.println("\n\nTEST 30");
+    int janeID = myLibrary.getID("Jane"); 
+    User jane = myLibrary.getUserByID(janeID);   
+    Book book1 = myLibrary.addBook("Title1", "Author1");
+    myLibrary.lendBookToUser(book1,jane);
+    assertEquals(jane.getName(),myLibrary.getBorrowers().getName());
+  }
+
+  @Test
+  public void Library_getBorrowers_3Borrowers() {
+    System.out.println("\n\nTEST 31");
+    int janeID = myLibrary.getID("Jane"); 
+    int jimID = myLibrary.getID("Jim"); 
+    int fredID = myLibrary.getID("Fred"); 
+    User jane = myLibrary.getUserByID(janeID);   
+    User jim = myLibrary.getUserByID(jimID);   
+    User fred = myLibrary.getUserByID(fredID);   
+    Book book1 = myLibrary.addBook("Title1", "Author1");
+    Book book2 = myLibrary.addBook("Title2", "Author2");
+    Book book3 = myLibrary.addBook("Title3", "Author2");
+    myLibrary.lendBookToUser(book1,jane);
+    myLibrary.lendBookToUser(book2,jim);
+    myLibrary.lendBookToUser(book3,fred);
+    assertEquals(jane.getName(),myLibrary.getBorrowers().getName());
+    assertEquals(jim.getName(),myLibrary.getBorrowers().getNext().getName());
+    assertEquals(fred.getName(),myLibrary.getBorrowers().getNext().getNext().getName());
+  }
+
+  @Test
+  public void Library_getUsers_2Users() {
+    System.out.println("\n\nTEST 32");
+    System.out.println("name of firstUser " + myLibrary.getUsers().getName());
+    int janeID = myLibrary.getID("Jane"); 
+    User jane = myLibrary.getUserByID(janeID);   
+    int jimID = myLibrary.getID("Jim"); 
+    User jim = myLibrary.getUserByID(jimID);   
+    assertEquals(jim.getName(),myLibrary.getUsers().getName());
+    assertEquals(jane.getName(),myLibrary.getUsers().getNext().getName());
+  }
+
 }

@@ -15,6 +15,40 @@ public class MockLibrary implements Library {
     noBorrower = getUserByID(noBorrowerID);
   }
 
+  public String getBorrower(Title title) {
+    if ((Book book = findBook(title)) == null) {
+      return null;
+    } 
+    if ((User user = book.getBorrower()) == null) {
+      return null;
+    }
+    return user.getName() 
+  }
+ 
+  public User getUsers() {
+    return users.getFirst();
+  }
+
+  public User getBorrowers() {
+    System.out.println("GETBORROWERS");
+    User curUser = users.getFirst();
+    User borrowersList = null; 
+    do {
+      System.out.println("name: " + curUser.getName());
+      if (curUser.getTitles() != null) {
+        if (borrowersList == null) {
+          borrowersList = new UserImpl(curUser);
+        } else {
+          User curUserCopy = new UserImpl(curUser);
+          curUserCopy.setNext(borrowersList);
+          borrowersList = curUserCopy;
+        }
+      } 
+      curUser = curUser.getNext();
+    } while (curUser != null);
+    return borrowersList;
+  }
+
   public void lendBookToUser(Book book, User user) {
     book.setBorrower(user);
     user.addToMyTitleList(book.getTitle());
@@ -91,6 +125,7 @@ public class MockLibrary implements Library {
           } else { 
             curBook.setTaken(true);
             curBook.setBorrower(noBorrower);
+            noBorrower.addToMyTitleList(title);
             return curBook;
           }
         }

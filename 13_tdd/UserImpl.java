@@ -13,7 +13,18 @@ public class UserImpl implements User {
     this.library = null;
   }
 
+  public UserImpl(User u) {
+    this.name = u.getName();
+    this.ID = u.getID();
+    this.next = null;
+    this.library = null; 
+    this.myTitleList = null;
+  }
+
   public void deleteFromMyTitleList(String title) {
+    if (myTitleList == null) {
+      System.out.println("YOOOODA");
+    }
     if (myTitleList.getTitle() == title) {
       Title deleteMe = myTitleList; 
       myTitleList = myTitleList.getNext(); 
@@ -22,6 +33,7 @@ public class UserImpl implements User {
   }
 
   public void addToMyTitleList(String title) {
+    System.out.println("adding " + title);
     Title newTitle;
     newTitle = new TitleImpl(title);  
     if (myTitleList == null) {

@@ -17,6 +17,11 @@ public class UsersImpl implements Users {
     return total;
   }
 
+
+  public User getFirst() {
+    return firstUser;
+  }
+
   public int getID(String name) {
     System.out.println("Searching for name " + name);
 

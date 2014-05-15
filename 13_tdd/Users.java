@@ -11,4 +11,8 @@ public interface Users {
   int count();
   boolean add(User user);
   User getUserByID(int ID);
+  /**
+   * Return first User
+   */
+  User getFirst();
 }
