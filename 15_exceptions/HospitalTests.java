@@ -10,7 +10,11 @@ public class HospitalTests {
     assertEquals("Jesse", hospital.findPatient("Jesse").getName()); 
   }
 
-  @Test
+  @Test (expected=IllegalArgumentException.class)
   public void Hospital_addPatient_toPatientListOfZero_age131_throws_IllegalArgumentException() {
     System.out.println("\n\nTEST 2");
+    Hospital hospital = new HospitalImpl();
+    hospital.addPatient("Jesse", 140);
+  }
+
 }

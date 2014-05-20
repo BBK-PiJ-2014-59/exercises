@@ -13,16 +13,18 @@ public interface Hospital {
     * Find a patient
     */
     Patient findPatient(String name);
+
   /**
     * Prompt for name
     * @return name
     */
-    String promptForName();
+    
+    //String promptForName();
   /**
     * Prompt for age
     * @return age
     */
-    int promptForAge();
+    //int promptForAge();
   
 
 }
