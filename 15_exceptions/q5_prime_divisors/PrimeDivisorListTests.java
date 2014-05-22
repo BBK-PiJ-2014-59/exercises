@@ -87,4 +87,17 @@ public class PrimeDivisorListTests {
     assertEquals("[ 2^2 * 3^2 * 5^2 ]", pdl.toString());
   }
 
+  @Test 
+  public void test_toString_7_7_7_2_5_5_3() {
+  System.out.println("TEST-11");
+    pdl.add(7);
+    pdl.add(7);
+    pdl.add(7);
+    pdl.add(2);
+    pdl.add(5);
+    pdl.add(5);
+    pdl.add(3);
+    assertEquals("[ 2 * 3 * 5^2 * 7^3 ]", pdl.toString());
+  }
+
 }

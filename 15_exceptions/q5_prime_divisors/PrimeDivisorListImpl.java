@@ -42,6 +42,7 @@ public class PrimeDivisorListImpl implements PrimeDivisorList {
     */
   @Override
   public String toString() {
+    Collections.sort(li);
     // return null;
     //String result = "[ " + li.get(0) + " * " + li.get(1) + " ]"; 
     String left = "[ ";
