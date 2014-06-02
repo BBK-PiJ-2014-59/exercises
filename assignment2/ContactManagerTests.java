@@ -2,15 +2,17 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.Set;
 import java.util.HashSet;
-
-
+import java.util.Calendar;
 
 public class ContactManagerTests {
 
   private int myId;
   private String myName;
   private Contact c;
+  private Meeting m;
   private ContactManager cm;
+  private Calendar cal = Calendar.getInstance();
+  private String myMtgNote; 
 
   static private final int CONTACTIDMIN = 100;
 
@@ -26,11 +28,16 @@ public class ContactManagerTests {
   static private final String CONTACTNOTES3 = "amazing";
   static private final int CONTACTID3 = 102;
 
+  static private final int MTGIDMIN = 1000;
+  static private final int MTGID1 = 1001;
+
   @Before
   public void buildUp() {
-    myId = 101; // TODO: what if a non-int is given?
-    myName = "Jane"; // TODO: what if a non-String is given?
+    myId = 101; 
+    myName = "Jane"; 
+    myMtgNote = "Wow. So meeting."; 
     c = new ContactImpl(myId, myName); // TODO: what if you try to create a Contact without both id and name?
+    m = new MeetingImpl(MTGID1, cal); 
     cm = new ContactManagerImpl(); 
   }
 
@@ -38,6 +45,48 @@ public class ContactManagerTests {
   public void test_Contact_getId() {
     System.out.println("TEST 1");
     assertEquals(myId, c.getId());
+  }
+
+  @Test
+  public void test_Meeting_getId() {
+    System.out.println("TEST 1.1");
+    assertEquals(MTGID1, m.getId());
+  }
+
+  @Test
+  public void test_Meeting_getDate() {
+    System.out.println("TEST 1.2");
+    assertEquals(cal, m.getDate());
+  }
+
+  @Test
+  public void test_Meeting_getContacts_noContacts() {
+    System.out.println("TEST 1.3");
+    Set<Contact> mtgcons = m.getContacts();
+    assertNull(mtgcons);
+  }
+
+  @Test
+  public void test_getMeeting_noMeetingsYet() {
+    System.out.println("TEST 1.3.1");
+    int fakeMtgId = 1000;
+    assertNull(cm.getMeeting(1000));
+  }
+
+  @Test
+  public void test_getMeeting_meetingExists() {
+    System.out.println("TEST 1.3.2");
+    Set<Contact> contacts = new HashSet<Contact>(); 
+    contacts.add(c);
+    cm.addNewPastMeeting(contacts, cal, myMtgNote);
+    Meeting mtg = cm.getMeeting(MTGIDMIN); 
+    assertEquals(MTGIDMIN,mtg.getId());
+  }
+
+  //@Test
+  public void test_Meeting_getContacts_1contact() {
+    System.out.println("TEST 1.4");
+    //int addFutureMeeting(Set<Contact> contacts, Calendar date)
   }
 
   @Test
@@ -99,7 +148,19 @@ public class ContactManagerTests {
     assertNotEquals(c0.getId(),c1.getId());
   }
 
-  @Test 
+  @Test (expected=NullPointerException.class)
+  public void test_ContactManager_addNewContact_nullName() {
+    System.out.println("TEST 7.1");
+    cm.addNewContact(null, CONTACTNOTES1);
+  }
+
+  @Test (expected=NullPointerException.class)
+  public void test_ContactManager_addNewContact_nullNotes() {
+    System.out.println("TEST 7.2");
+    cm.addNewContact(CONTACTNAME1, null);
+  }
+
+  @Test
   public void test_ContactManager_addNewContact_threeTimes_getFirstTwoIds() {
     System.out.println("TEST 8");
     cm.addNewContact(CONTACTNAME1, CONTACTNOTES1);
@@ -117,20 +178,24 @@ public class ContactManagerTests {
   }
     
   @Test 
-  public void test_ContactManager_addNewContact_threeTimes_getAllIds() {
+  public void test_ContactManager_addNewContact_100Times_getAllIds() {
     System.out.println("TEST 9");
-    cm.addNewContact(CONTACTNAME1, CONTACTNOTES1);
-    cm.addNewContact(CONTACTNAME2, CONTACTNOTES2);
-    cm.addNewContact(CONTACTNAME3, CONTACTNOTES3);
+    int numContacts = 100;
+    int contactIdMax = 199;
     Set<Integer> testIdSet = new HashSet<Integer>();
-    testIdSet.add(100);  
-    testIdSet.add(101);  
-    testIdSet.add(102);  
-    int[] idsToRequest = { 100, 101, 102 };
-    //Set<Contact> s = cm.getContacts(CONTACTID1, CONTACTID2, CONTACTID3);
-    //Set<Contact> s = cm.getContacts();
-    //Integer[] ia = (Integer[])testIdSet.toArray();
-    //int[] inta = (int[])ia;
+    int[] idsToRequest = new int[numContacts];
+    for (int curId = CONTACTIDMIN; curId <= contactIdMax; curId++) {
+      String curName = "CONTACTNAME" + curId;  
+      String curNotes = "CONTACTNOTES" + curId;  
+      cm.addNewContact(curName, curNotes); 
+      testIdSet.add(curId);  
+      idsToRequest[curId-CONTACTIDMIN] = curId;
+    }
+
+    //for (int id : idsToRequest) {
+      //System.out.println(id);
+    //}
+
     Set<Contact> s = cm.getContacts(idsToRequest);
     Set<Integer> returnedIdSet = new HashSet<Integer>();
     for (Contact c : s) {
@@ -139,25 +204,11 @@ public class ContactManagerTests {
     assertTrue(testIdSet.equals(returnedIdSet));
   }
 
-  @Test 
-  public void test_ContactManager_addNewContact_100Times_getAllIds() {
+  @Test (expected=IllegalArgumentException.class) 
+  public void test_ContactManager_getContacts_nonExistentContact() {
     System.out.println("TEST 10");
-    int numContacts = 100;
-    int contactIdMax = 199;
-    Set<Integer> testIdSet = new HashSet<Integer>();
-    int[] idsToRequest = new int[numContacts];
-    for (int curId = CONTACTIDMIN; curId < contactIdMax; curId++) {
-      String curName = "CONTACTNAME" + curId;  
-      String curNotes = "CONTACTNOTES" + curId;  
-      cm.addNewContact(curName, curNotes); 
-      testIdSet.add(curId);  
-      idsToRequest[curId-CONTACTIDMIN] = curId;
-    }
-    Set<Contact> s = cm.getContacts(idsToRequest);
-    Set<Integer> returnedIdSet = new HashSet<Integer>();
-    for (Contact c : s) {
-      returnedIdSet.add(c.getId());  
-    }  
-    assertTrue(testIdSet.equals(returnedIdSet));
+    cm.addNewContact(CONTACTNAME1, CONTACTNOTES1); 
+    int fakeId = 50;
+    Set<Contact> s = cm.getContacts(fakeId);
   }
 }

@@ -115,7 +115,7 @@ public interface ContactManager {
 	*
 	* @param name the name of the contact.
 	* @param notes notes to be added about the contact.
-	* @throws NullPointerException if the name or the notes are null
+	* @throws NullPointerException if the name or the notes are null [ test: 7.1, 7.2 ]
 	*/
 	void addNewContact(String name, String notes);
 
@@ -124,7 +124,7 @@ public interface ContactManager {
 	*
 	* @param ids an arbitrary number of contact IDs
 	* @return a list containing the contacts that correspond to the IDs.
-	* @throws IllegalArgumentException if any of the IDs does not correspond to a real contact
+	* @throws IllegalArgumentException if any of the IDs does not correspond to a real contact [ test: 10 ]
 	*/
 	Set<Contact> getContacts(int... ids);
 

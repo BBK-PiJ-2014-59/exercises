@@ -15,29 +15,37 @@ public class ContactManagerImpl implements ContactManager {
   }
 
 	public Set<Contact> getContacts(int... ids) {
-    System.out.println("Starting getContacts()");
+    //System.out.println("Starting getContacts()");
     Set<Contact> result = new HashSet<Contact>();
     for (int argId : ids) {
+      boolean foundId = false;
       for (Contact c : contacts) {
         if (c.getId() == argId) {
           result.add(c);
+          foundId = true;
         }
       }
+      if (foundId == false) {
+        throw new IllegalArgumentException("Could not find requested ID " + argId);
+      }
     }
-    //for (Contact c : result) {
-    //  System.out.println("c.getName(): " + c.getName());
-    //} 
     return result;
   }
 
 	public void addNewContact(String name, String notes) throws NullPointerException {
-    System.out.println("Starting addNewContact()");
+    //System.out.println("Starting addNewContact()");
+    if (name == null) {
+      throw new NullPointerException("name cannot be null.");
+    }
+    if (notes == null) {
+      throw new NullPointerException("notes cannot be null.");
+    }
     Contact newc = new ContactImpl(getAndIncrementNextId(), name);
     contacts.add(newc);
-    for (Contact c : contacts) {
-      System.out.println("c.getName(): " + c.getName());
-      System.out.println("c.getId(): " + c.getId());
-    } 
+    //for (Contact c : contacts) {
+      //System.out.println("c.getName(): " + c.getName());
+      //System.out.println("c.getId(): " + c.getId());
+    //} 
   }
 
   private int getAndIncrementNextId() {

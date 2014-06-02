@@ -7,9 +7,9 @@
 public interface Contact {
 
 	/**
-	* Returns the ID of the contact.
+	* Returns the ID of the contact. 
 	*
-	* @return the ID of the contact.
+	* @return the ID of the contact. 
 	*/
 	int getId();
 	
@@ -31,7 +31,7 @@ public interface Contact {
 	String getNotes();
 	
 	/**
-	* Add notes about the contact.
+	* Add notes about the contact. [SHOULD IT BE JUST REPLACING THEM OR ADDING? ONLY ONE STRING SO REPLACE?]
 	*
 	* @param note the notes to be added
 	*/
