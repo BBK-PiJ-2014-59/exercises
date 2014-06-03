@@ -87,7 +87,10 @@ public interface ContactManager {
 	*
 	* @param contacts a list of participants
 	* @param date the date on which the meeting took place
-	* @param text messages to be added about the meeting.
+	* @param text messages to be added about the meeting. 
+  * [ QUESTION: WHERE TO STORE text? Assume: ContactManager. Because 
+  * spec doesn't have any restrictions on class fields whereas Meeting spec does (and doesn't include it
+  * in any of its fields nor include a text setter in any public methods). ]
 	* @throws IllegalArgumentException if the list of contacts is
 	* empty, or any of the contacts does not exist
 	* @throws NullPointerException if any of the arguments is null

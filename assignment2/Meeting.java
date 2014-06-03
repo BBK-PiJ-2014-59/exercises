@@ -4,7 +4,8 @@ import java.util.Set;
 /**
 * A class to represent meetings
 *
-* Meetings have unique IDs, scheduled date and a list of participating contacts
+* Meetings have unique IDs, scheduled date and a list of participating contacts 
+* [ contacts in LIST OR SET? Set because of ContactManager implementation ]
 */
 public interface Meeting {
 

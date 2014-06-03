@@ -1,17 +1,49 @@
 import java.util.Calendar;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
 public class ContactManagerImpl implements ContactManager {
 
   private Set<Contact> contacts;
-  private int nextId; 
+  private int nextContactId; 
+
+  private List<Meeting> mtgs;
+  private int nextMtgId; 
+
   static final private int FIRSTCONTACTID = 100; 
+  static final private int FIRSTMTGID = 1000; 
 
   public ContactManagerImpl() {
     contacts = new HashSet<Contact>();
-    nextId = FIRSTCONTACTID;
+    nextContactId = FIRSTCONTACTID;
+    mtgs = new ArrayList<Meeting>();
+    nextMtgId = FIRSTMTGID;
+  }
+
+	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+    int newMtgId = getNextMtgId();
+    Meeting mtg = new MeetingImpl(newMtgId, date, contacts);
+    mtgs.add(mtg);
+  }
+
+  private int getNextMtgId() {
+    return nextMtgId++;
+  }
+
+	public Meeting getMeeting(int id) {
+    Meeting result;
+    if (mtgs.isEmpty()) {
+      result = null;
+    } else {
+      try {
+        result = mtgs.get(id-FIRSTMTGID); // TODO: Add check: only return if Meeting.getId() == id-FIRSTMTGID else throw some exception.  
+      } catch (IndexOutOfBoundsException ex) {
+        result = null;
+      } 
+    }
+    return result;
   }
 
 	public Set<Contact> getContacts(int... ids) {
@@ -49,7 +81,7 @@ public class ContactManagerImpl implements ContactManager {
   }
 
   private int getAndIncrementNextId() {
-    return nextId++;
+    return nextContactId++;
   }
 
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
@@ -61,9 +93,6 @@ public class ContactManagerImpl implements ContactManager {
 	public FutureMeeting getFutureMeeting(int id) {
     return null;
   }
-	public Meeting getMeeting(int id) {
-    return null;
-  }
 	public List<Meeting> getFutureMeetingList(Contact contact) {
     return null;
   }
@@ -72,8 +101,6 @@ public class ContactManagerImpl implements ContactManager {
   }
 	public List<PastMeeting> getPastMeetingList(Contact contact) {
     return null;
-  }
-	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
   }
 	public void addMeetingNotes(int id, String text) {
   }

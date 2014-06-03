@@ -41,6 +41,8 @@ public class ContactManagerTests {
     cm = new ContactManagerImpl(); 
   }
 
+  // TODO: notes 
+
   @Test
   public void test_Contact_getId() {
     System.out.println("TEST 1");
@@ -69,18 +71,42 @@ public class ContactManagerTests {
   @Test
   public void test_getMeeting_noMeetingsYet() {
     System.out.println("TEST 1.3.1");
-    int fakeMtgId = 1000;
-    assertNull(cm.getMeeting(1000));
+    Meeting mtg = cm.getMeeting(MTGIDMIN); 
+    assertNull(mtg);
   }
 
   @Test
-  public void test_getMeeting_meetingExists() {
+  public void test_getMeeting_meetingExists_1meeting() {
     System.out.println("TEST 1.3.2");
     Set<Contact> contacts = new HashSet<Contact>(); 
     contacts.add(c);
     cm.addNewPastMeeting(contacts, cal, myMtgNote);
     Meeting mtg = cm.getMeeting(MTGIDMIN); 
     assertEquals(MTGIDMIN,mtg.getId());
+  }
+
+  @Test
+  public void test_getMeeting_meetingExists_2meetings() {
+    System.out.println("TEST 1.3.3");
+    Set<Contact> contacts = new HashSet<Contact>(); 
+    contacts.add(c);
+    cm.addNewPastMeeting(contacts, cal, myMtgNote);
+    cm.addNewPastMeeting(contacts, cal, myMtgNote);
+    Meeting mtg1 = cm.getMeeting(MTGIDMIN); 
+    Meeting mtg2 = cm.getMeeting(MTGIDMIN+1); 
+    assertEquals(MTGIDMIN,mtg1.getId());
+    assertEquals(MTGIDMIN+1,mtg2.getId());
+  }
+
+  @Test
+  public void test_getMeeting_meetingDoesntExist_2meetings() {
+    System.out.println("TEST 1.3.4");
+    Set<Contact> contacts = new HashSet<Contact>(); 
+    contacts.add(c);
+    cm.addNewPastMeeting(contacts, cal, myMtgNote);
+    cm.addNewPastMeeting(contacts, cal, myMtgNote);
+    Meeting mtg = cm.getMeeting(MTGIDMIN+100); 
+    assertNull(mtg);
   }
 
   //@Test
