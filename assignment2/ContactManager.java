@@ -41,7 +41,7 @@ public interface ContactManager {
 	* @param id the ID for the meeting
 	* @return the meeting with the requested ID, or null if it there is none.
 	*/
-	Meeting getMeeting(int id);
+	Meeting getMeeting(int id); // DONE
 
 	/**
 	* Returns the list of future meetings scheduled with this contact.
@@ -120,7 +120,7 @@ public interface ContactManager {
 	* @param notes notes to be added about the contact.
 	* @throws NullPointerException if the name or the notes are null [ test: 7.1, 7.2 ]
 	*/
-	void addNewContact(String name, String notes);
+	void addNewContact(String name, String notes); // DONE
 
 	/**
 	* Returns a list containing the contacts that correspond to the IDs.
@@ -129,7 +129,7 @@ public interface ContactManager {
 	* @return a list containing the contacts that correspond to the IDs.
 	* @throws IllegalArgumentException if any of the IDs does not correspond to a real contact [ test: 10 ]
 	*/
-	Set<Contact> getContacts(int... ids);
+	Set<Contact> getContacts(int... ids); // DONE
 
 	/**
 	* Returns a list with the contacts whose name contains that string.
@@ -138,7 +138,7 @@ public interface ContactManager {
 	* @return a list with the contacts whose name contains that string.
 	* @throws NullPointerException if the parameter is null
 	*/
-	Set<Contact> getContacts(String name);
+	Set<Contact> getContacts(String name); // DONE
 
 	/**
 	* Save all data to disk.

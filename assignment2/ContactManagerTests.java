@@ -1,3 +1,5 @@
+// TODO: replace Set.addAll() with Collections.addAll(). Use most generic interface possible, so you can change implementation later.
+
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.Set;
@@ -6,15 +8,13 @@ import java.util.Calendar;
 
 public class ContactManagerTests {
 
-  private int myId;
-  private String myName;
-  private Contact c;
-  private Meeting m;
-  private ContactManager cm;
-  private Calendar cal = Calendar.getInstance();
-  private String myMtgNote; 
+
+  static private final int JESSEID = 999;
+  static private final String JESSENAME = "Jesse";
+  static private final Contact JESSE = new ContactImpl(JESSEID, JESSENAME);
 
   static private final int CONTACTIDMIN = 100;
+  static private final String USERNAME = "USERNAME";
 
   static private final String CONTACTNAME1 = "Bill";
   static private final String CONTACTNOTES1 = "such generous";
@@ -31,14 +31,39 @@ public class ContactManagerTests {
   static private final int MTGIDMIN = 1000;
   static private final int MTGID1 = 1001;
 
+  private int myId;
+  private String myName;
+  private Contact user;
+  private String userName;
+  private Contact c;
+  private Set<Contact> contacts; 
+  private Meeting m;
+  private ContactManager cm;
+  private Calendar cal = Calendar.getInstance();
+  private String myMtgNote; 
+
+  private Set<Contact> populateTestContactSet(int loId, int hiId) {
+    Set <Contact> testContactSet = new HashSet<Contact>();
+    for (int id=loId; id <= hiId; id++) {
+      String name = "dummyContactName" + id;
+      testContactSet.add(new ContactImpl(id, name));
+    } 
+    for (Contact ci: testContactSet) {
+      System.out.println(ci.getName());
+    }
+    return testContactSet;
+  }
+
   @Before
   public void buildUp() {
     myId = 101; 
+    userName = "JO"; 
     myName = "Jane"; 
     myMtgNote = "Wow. So meeting."; 
     c = new ContactImpl(myId, myName); // TODO: what if you try to create a Contact without both id and name?
     m = new MeetingImpl(MTGID1, cal); 
     cm = new ContactManagerImpl(); 
+    contacts = new HashSet<Contact>(); 
   }
 
   // TODO: notes 
@@ -62,11 +87,50 @@ public class ContactManagerTests {
   }
 
   @Test
-  public void test_Meeting_getContacts_noContacts() {
-    System.out.println("TEST 1.3");
-    Set<Contact> mtgcons = m.getContacts();
-    assertNull(mtgcons);
+  public void test_Meeting_getContacts_NoContacts() {
+    System.out.println("TEST 1.2.5");
+    int mtgid = 1000;
+    Meeting justUser = new MeetingImpl(mtgid, cal); 
+    Set<Contact> sc = new HashSet<Contact>();
+    sc.addAll(justUser.getContacts());
+    assertEquals(1,sc.size());
   }
+
+  @Test
+  public void test_Meeting_getContacts_1Contact() {
+    System.out.println("TEST 1.3");
+    int mtgid = 1000;
+    Set<Contact> sc = new HashSet<Contact>();
+    Meeting justUser = new MeetingImpl(mtgid, cal); 
+    sc.add(JESSE);
+    sc.addAll(justUser.getContacts());
+
+    Meeting userAndJesse = new MeetingImpl(mtgid, cal, sc); 
+    Set<Contact> sc2 = new HashSet<Contact>(); 
+    sc2 = userAndJesse.getContacts();
+    assertTrue(sc.equals(sc2));
+  }
+
+  @Test
+  public void test_Meeting_getContacts_2Contacts() {
+    System.out.println("TEST 1.3.0");
+
+    int fakeMtgId = 1000;
+    Meeting justUser = new MeetingImpl(fakeMtgId, cal);
+
+    Set<Contact> fixtureContactSet = new HashSet<Contact>();
+    fixtureContactSet.addAll(justUser.getContacts()); // has just the user so far
+  
+    Set<Contact> tcs = new HashSet<Contact>();
+    tcs = populateTestContactSet(101,102);
+
+    fixtureContactSet.addAll(tcs);
+    
+    Meeting mtg = new MeetingImpl(fakeMtgId, cal, fixtureContactSet);
+    assertEquals(fixtureContactSet, mtg.getContacts());
+  }
+
+  // TODO: parameterized test of above using number of contacts as parameter
 
   @Test
   public void test_getMeeting_noMeetingsYet() {
@@ -78,7 +142,6 @@ public class ContactManagerTests {
   @Test
   public void test_getMeeting_meetingExists_1meeting() {
     System.out.println("TEST 1.3.2");
-    Set<Contact> contacts = new HashSet<Contact>(); 
     contacts.add(c);
     cm.addNewPastMeeting(contacts, cal, myMtgNote);
     Meeting mtg = cm.getMeeting(MTGIDMIN); 
@@ -88,7 +151,6 @@ public class ContactManagerTests {
   @Test
   public void test_getMeeting_meetingExists_2meetings() {
     System.out.println("TEST 1.3.3");
-    Set<Contact> contacts = new HashSet<Contact>(); 
     contacts.add(c);
     cm.addNewPastMeeting(contacts, cal, myMtgNote);
     cm.addNewPastMeeting(contacts, cal, myMtgNote);
@@ -101,18 +163,11 @@ public class ContactManagerTests {
   @Test
   public void test_getMeeting_meetingDoesntExist_2meetings() {
     System.out.println("TEST 1.3.4");
-    Set<Contact> contacts = new HashSet<Contact>(); 
     contacts.add(c);
     cm.addNewPastMeeting(contacts, cal, myMtgNote);
     cm.addNewPastMeeting(contacts, cal, myMtgNote);
     Meeting mtg = cm.getMeeting(MTGIDMIN+100); 
     assertNull(mtg);
-  }
-
-  //@Test
-  public void test_Meeting_getContacts_1contact() {
-    System.out.println("TEST 1.4");
-    //int addFutureMeeting(Set<Contact> contacts, Calendar date)
   }
 
   @Test
@@ -163,7 +218,7 @@ public class ContactManagerTests {
   }
 
   @Test 
-  public void test_ContactManager_addNewContact_twice_IdsDifferent() {
+  public void test_ContactManager_addNewContact_twice_IdsDifferent() { 
     System.out.println("TEST 7");
     cm.addNewContact(CONTACTNAME1, CONTACTNOTES1);
     cm.addNewContact(CONTACTNAME2, CONTACTNOTES2);
@@ -237,4 +292,80 @@ public class ContactManagerTests {
     int fakeId = 50;
     Set<Contact> s = cm.getContacts(fakeId);
   }
+
+  @Test (expected=NullPointerException.class) 
+  public void test_ContactManager_getContacts_nullStringParameter() {
+    System.out.println("TEST 11");
+    String name = null;
+    Set<Contact> s = cm.getContacts(name);
+  }
+
+  @Test
+  public void test_ContactManager_getContacts_StringParameter_NotFound() {
+    System.out.println("TEST 12");
+    String name = "foooo";
+    Set<Contact> s = cm.getContacts(name);
+    assertTrue(s.isEmpty());
+  }
+
+  @Test
+  public void test_ContactManager_getContacts_StringParameter_FoundMatch() {
+    System.out.println("TEST 13");
+    cm.addNewContact(CONTACTNAME1, CONTACTNOTES1); 
+    Set<Contact> s = cm.getContacts(CONTACTNAME1);
+    assertFalse(s.isEmpty());
+  }
+
+  @Test
+  public void test_ContactManager_getContacts_StringParameter_FoundOneMatch() {
+    System.out.println("TEST 14");
+    int matchesNeeded = 1; // TODO: parameterize!
+    cm.addNewContact(CONTACTNAME1, CONTACTNOTES1); 
+    cm.addNewContact(CONTACTNAME2, CONTACTNOTES2); 
+    Set<Contact> s = cm.getContacts(CONTACTNAME1);
+    assertEquals(matchesNeeded, s.size());
+    Object[] oa = s.toArray(); 
+    Contact c = (Contact) oa[0];
+    assertEquals(CONTACTNAME1,c.getName());
+  }
+
+  @Test
+  public void test_ContactManager_getContacts_StringParameter_FoundTwoMatches() {
+    System.out.println("TEST 15");
+    int matchesNeeded = 2; // TODO: parameterize!
+    String match1 = "Jesse";
+    String match2 = match1 + " O";
+    cm.addNewContact(CONTACTNAME1, CONTACTNOTES1); 
+    cm.addNewContact(CONTACTNAME2, CONTACTNOTES2); 
+    cm.addNewContact(match1, CONTACTNOTES1); 
+    cm.addNewContact(match2, CONTACTNOTES2); 
+    Set<Contact> s = cm.getContacts(match1);
+    assertEquals(matchesNeeded, s.size());
+    
+    // TODO: add back in with eg SortedSet using custom Comparator.   
+    // Otherwise BAD TEST. inconsistent results. Sort Object array and then run assertions. ...use Sorted Set?
+    /*
+    Object[] oa = s.toArray(); 
+    Contact c1 = (Contact) oa[0];
+    assertEquals(match1,c1.getName());
+    Contact c2 = (Contact) oa[1];
+    */
+  }
+
+  @Test
+  public void test_getPastMeeting_NonExistentId() {
+    System.out.println("TEST 16");
+    assertNull(cm.getPastMeeting(MTGIDMIN)); 
+  }
+
+  @Test
+  public void test_getPastMeeting_Exists() {
+    System.out.println("TEST 17");
+    Set<Contact> tcs = new HashSet<Contact>();
+    tcs = populateTestContactSet(101,102);
+    cm.addNewPastMeeting(tcs, cal, myMtgNote);
+    assertNotNull(cm.getPastMeeting(MTGIDMIN)); 
+  }
+
+  
 }

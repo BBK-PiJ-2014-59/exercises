@@ -22,6 +22,7 @@ public class ContactManagerImpl implements ContactManager {
     nextMtgId = FIRSTMTGID;
   }
 
+
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
     int newMtgId = getNextMtgId();
     Meeting mtg = new MeetingImpl(newMtgId, date, contacts);
@@ -64,6 +65,19 @@ public class ContactManagerImpl implements ContactManager {
     return result;
   }
 
+	public Set<Contact> getContacts(String name) {
+    if (name == null) {
+      throw new NullPointerException("String parameter was null: " + name);
+    }
+    Set<Contact> result = new HashSet<Contact>();
+    for (Contact c : contacts) {
+      if (c.getName().contains(name)) {
+        result.add(c);
+      }
+    }
+    return result;
+  }
+
 	public void addNewContact(String name, String notes) throws NullPointerException {
     //System.out.println("Starting addNewContact()");
     if (name == null) {
@@ -87,9 +101,20 @@ public class ContactManagerImpl implements ContactManager {
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
     return 0;
   }
+
+  /*
+  private PastMeeting toPastMeeting(Meeting meeting) {
+    PastMeeting pm = new PastMeeting(meeting.getN /////////////////////////
+  }
+
+  */
 	public PastMeeting getPastMeeting(int id) {
     return null;
+    //PastMeeting result = getMeeting(id);
+    
+    //return result; 
   }
+
 	public FutureMeeting getFutureMeeting(int id) {
     return null;
   }
@@ -106,9 +131,7 @@ public class ContactManagerImpl implements ContactManager {
   }
 
 
-	public Set<Contact> getContacts(String name) {
-    return null;
-  }
+
 	public void flush() {
   }
 
