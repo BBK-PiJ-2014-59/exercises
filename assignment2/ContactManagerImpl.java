@@ -25,8 +25,9 @@ public class ContactManagerImpl implements ContactManager {
 
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
     int newMtgId = getNextMtgId();
-    Meeting mtg = new MeetingImpl(newMtgId, date, contacts);
-    mtgs.add(mtg);
+    //Meeting mtg = new MeetingImpl(newMtgId, date, contacts);
+    PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, contacts);
+    mtgs.add(pastMtg);
   }
 
   private int getNextMtgId() {
@@ -109,10 +110,11 @@ public class ContactManagerImpl implements ContactManager {
 
   */
 	public PastMeeting getPastMeeting(int id) {
-    return null;
-    //PastMeeting result = getMeeting(id);
+    Meeting m = getMeeting(id);
+    PastMeeting pm;
+    // TODO NEXT: manually copy fields from m into pm, checking for past date.
     
-    //return result; 
+    return pm; 
   }
 
 	public FutureMeeting getFutureMeeting(int id) {

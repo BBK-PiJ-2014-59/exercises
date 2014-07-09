@@ -31,6 +31,10 @@ public class ContactManagerTests {
   static private final int MTGIDMIN = 1000;
   static private final int MTGID1 = 1001;
 
+  static private final int FAKEMTGID = 9999;
+
+  static private final Calendar FAKECAL = Calendar.getInstance();
+
   private int myId;
   private String myName;
   private Contact user;
@@ -115,8 +119,7 @@ public class ContactManagerTests {
   public void test_Meeting_getContacts_2Contacts() {
     System.out.println("TEST 1.3.0");
 
-    int fakeMtgId = 1000;
-    Meeting justUser = new MeetingImpl(fakeMtgId, cal);
+    Meeting justUser = new MeetingImpl(FAKEMTGID, cal);
 
     Set<Contact> fixtureContactSet = new HashSet<Contact>();
     fixtureContactSet.addAll(justUser.getContacts()); // has just the user so far
@@ -126,7 +129,7 @@ public class ContactManagerTests {
 
     fixtureContactSet.addAll(tcs);
     
-    Meeting mtg = new MeetingImpl(fakeMtgId, cal, fixtureContactSet);
+    Meeting mtg = new MeetingImpl(FAKEMTGID, cal, fixtureContactSet);
     assertEquals(fixtureContactSet, mtg.getContacts());
   }
 
@@ -143,7 +146,7 @@ public class ContactManagerTests {
   public void test_getMeeting_meetingExists_1meeting() {
     System.out.println("TEST 1.3.2");
     contacts.add(c);
-    cm.addNewPastMeeting(contacts, cal, myMtgNote);
+    cm.addNewPastMeeting(contacts, cal, myMtgNote); // TODO: get rid of cal, myMtgNote
     Meeting mtg = cm.getMeeting(MTGIDMIN); 
     assertEquals(MTGIDMIN,mtg.getId());
   }
@@ -360,6 +363,7 @@ public class ContactManagerTests {
 
   @Test
   public void test_getPastMeeting_Exists() {
+    //   void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text);
     System.out.println("TEST 17");
     Set<Contact> tcs = new HashSet<Contact>();
     tcs = populateTestContactSet(101,102);
@@ -367,5 +371,20 @@ public class ContactManagerTests {
     assertNotNull(cm.getPastMeeting(MTGIDMIN)); 
   }
 
+  @Test
+  public void test_PastMeeting_getNotes_null() {
+    System.out.println("TEST 18");
+    PastMeeting pm = new PastMeetingImpl(FAKEMTGID, FAKECAL); 
+    assertNull(pm.getNotes());
+  }
+
+
+  /* TODO: rewrite test using ContactManager.addMeetingNotes()
+  @Test
+  public void test_PastMeeting_getNotes_notNull() {
+    PastMeeting pm = new PastMeetingImpl(FAKEMTGID, FAKECAL); 
+    assertNull(pm.getNotes());
+  }
+  */
   
 }
