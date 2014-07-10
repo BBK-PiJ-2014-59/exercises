@@ -109,11 +109,18 @@ public class ContactManagerImpl implements ContactManager {
   }
 
   */
+
 	public PastMeeting getPastMeeting(int id) {
     Meeting m = getMeeting(id);
-    PastMeeting pm;
-    // TODO NEXT: manually copy fields from m into pm, checking for past date.
-    
+    PastMeeting pm; 
+    if (m == null) {
+      pm = null;
+    } else {
+      pm = new PastMeetingImpl(m.getId(), m.getDate(), getContacts()); 
+      if (pm.getDate().after(Calendar.getInstance())) {
+        throw new IllegalArgumentException("Invalid meeting date. Past date required.");
+      }
+    }
     return pm; 
   }
 

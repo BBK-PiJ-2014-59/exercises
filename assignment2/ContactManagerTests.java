@@ -371,6 +371,11 @@ public class ContactManagerTests {
     assertNotNull(cm.getPastMeeting(MTGIDMIN)); 
   }
 
+  @Test (expected=IllegalArgumentException.class)
+  public void test_addNewPastMeeting_emptyContact_throws_IllegalArgumentException() {
+  System.out.println("TEST 17.1");
+  }
+
   @Test
   public void test_PastMeeting_getNotes_null() {
     System.out.println("TEST 18");
