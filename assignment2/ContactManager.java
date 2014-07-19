@@ -92,8 +92,8 @@ public interface ContactManager {
   * spec doesn't have any restrictions on class fields whereas Meeting spec does (and doesn't include it
   * in any of its fields nor include a text setter in any public methods). ]
 	* @throws IllegalArgumentException if the list of contacts is
-	* empty, or any of the contacts does not exist
-	* @throws NullPointerException if any of the arguments is null
+	* empty [ DONE: Test 17.1 ] , or any of the contacts does not exist
+	* @throws NullPointerException if any of the arguments is null [ DONE: tests 17.2 - 17.4 ]
 	*/
 	void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text);
 
@@ -101,7 +101,7 @@ public interface ContactManager {
 	* Add notes to a meeting.
 	*
 	* This method is used when a future meeting takes place, and is
-	* then converted to a past meeting (with notes).
+	* then converted to a past meeting (with notes). // TODO: wtf??
 	*
 	* It can be also used to add notes to a past meeting at a later date.
 	*
@@ -111,16 +111,17 @@ public interface ContactManager {
 	* @throws IllegalStateException if the meeting is set for a date in the future
 	* @throws NullPointerException if the notes are null
 	*/
-	void addMeetingNotes(int id, String text);
+	void addMeetingNotes(int id, String text); // TODO
 
 	/**
+  * DONE
 	* Create a new contact with the specified name and notes.
 	*
 	* @param name the name of the contact.
 	* @param notes notes to be added about the contact.
-	* @throws NullPointerException if the name or the notes are null [ test: 7.1, 7.2 ]
+	* @throws NullPointerException if the name or the notes are null [ DONE: 7.1, 7.2 ]
 	*/
-	void addNewContact(String name, String notes); // DONE
+	void addNewContact(String name, String notes);
 
 	/**
 	* Returns a list containing the contacts that correspond to the IDs.

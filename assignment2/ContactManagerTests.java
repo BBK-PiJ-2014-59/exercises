@@ -196,7 +196,8 @@ public class ContactManagerTests {
   // TODO: Contact specification says id should be unique. But the interface doesn't specify throwing any exceptions, so assume Contact constructors can't throw any, as it would be poor design to throw exceptions that weren't specified in the interface. How then to have Contact guarantee id-uniqueness? It seems the best way would be rewrite the interface to allow the constructor to throw an IllegalArgumentException. But in a real-world situation, could you get away with this? Assume that the interface can't be changed, so we need to manage Contact uniqueness from ContactManager.
 
   @Test 
-  public void test_ContactManager_addNewContact_firstContact() {
+  // TODO: tests rely on array order - bad?
+  public void test_ContactManager_addNewContact_firstContact() { 
     System.out.println("TEST 5");
     cm.addNewContact(CONTACTNAME1, CONTACTNOTES1);
     Set<Contact> s = cm.getContacts(CONTACTID1);
@@ -268,6 +269,7 @@ public class ContactManagerTests {
     int contactIdMax = 199;
     Set<Integer> testIdSet = new HashSet<Integer>();
     int[] idsToRequest = new int[numContacts];
+
     for (int curId = CONTACTIDMIN; curId <= contactIdMax; curId++) {
       String curName = "CONTACTNAME" + curId;  
       String curNotes = "CONTACTNOTES" + curId;  
@@ -276,12 +278,9 @@ public class ContactManagerTests {
       idsToRequest[curId-CONTACTIDMIN] = curId;
     }
 
-    //for (int id : idsToRequest) {
-      //System.out.println(id);
-    //}
-
     Set<Contact> s = cm.getContacts(idsToRequest);
     Set<Integer> returnedIdSet = new HashSet<Integer>();
+
     for (Contact c : s) {
       returnedIdSet.add(c.getId());  
     }  
@@ -361,19 +360,91 @@ public class ContactManagerTests {
     assertNull(cm.getPastMeeting(MTGIDMIN)); 
   }
 
+  /*
+  * @returns array of contact IDs containing the range requested to be added
+  * @param cIdMin lowest ID in range 
+  * @param cIdMax highest ID in range 
+  * @throws IllegalArgumentException if cIdMin was below minimum ID allowed 
+  */
+  private int[] addTestContactRange(int cIdMin, int cIdMax) {
+    // TODO: shouldn't be able to add below CONTACTIDMIN
+    // But how to know minimum ID allowed if private to ContactManager? Redo so we just ask for a number of contacts to be added
+    // to an empty ContactManager and we're given back an array of IDs to request to get this same amount of existing contacts back.
+    int[] idsToRequest = new int[cIdMax-cIdMin+1];
+    for (int curId = cIdMin; curId <= cIdMax; curId++) {
+      String curName = "name of Contact with ID " + curId;
+      String curNotes = "notes of Contact with ID " + curId;
+      cm.addNewContact(curName, curNotes);
+      idsToRequest[curId-cIdMin] = curId;
+    }
+    return idsToRequest;
+  }
+
   @Test
-  public void test_getPastMeeting_Exists() {
-    //   void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text);
+  public void test_addNewPastMeeting_getPastMeeting_exists() {
     System.out.println("TEST 17");
+
+    //int[] idsToRequest = new int[199-CONTACTIDMIN+1];
+    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN+100);
+
+    /*
+    // TODO NEXT: wrap this in a method returning idsToRequest array
+    int cIdMin = CONTACTIDMIN;
+    int cIdMax = 199;
+    //int[] idsToRequest = new int[cIdMax-cIdMin+1];
+    for (int curId = cIdMin; curId <= cIdMax; curId++) {
+      String curName = "name of Contact with ID " + curId;  
+      String curNotes = "notes of Contact with ID " + curId;  
+      cm.addNewContact(curName, curNotes);
+      idsToRequest[curId-cIdMin] = curId;
+    }
+    */
+
     Set<Contact> tcs = new HashSet<Contact>();
-    tcs = populateTestContactSet(101,102);
+    tcs = cm.getContacts(idsToRequest);
+
     cm.addNewPastMeeting(tcs, cal, myMtgNote);
     assertNotNull(cm.getPastMeeting(MTGIDMIN)); 
   }
 
   @Test (expected=IllegalArgumentException.class)
-  public void test_addNewPastMeeting_emptyContact_throws_IllegalArgumentException() {
-  System.out.println("TEST 17.1");
+  public void test_addNewPastMeeting_emptyContact() {
+    System.out.println("TEST 17.1");
+    Set<Contact> tcs = new HashSet<Contact>();
+    cm.addNewPastMeeting(tcs, cal, myMtgNote);
+  }
+
+  @Test (expected=IllegalArgumentException.class)
+  public void test_addNewPastMeeting_nonExistentContact() {
+    System.out.println("TEST 17.1.1");
+    Set<Contact> tcs = new HashSet<Contact>();
+    tcs = populateTestContactSet(101,102);
+    cm.addNewPastMeeting(tcs, cal, myMtgNote);
+  }
+
+  @Test (expected=NullPointerException.class)
+  public void test_addNewPastMeeting_nullContactSet() {
+    System.out.println("TEST 17.2");
+    Set<Contact> tcs = null;
+    cm.addNewPastMeeting(tcs, cal, myMtgNote); // TODO: rename cal 'testPastDate'
+  }
+
+  @Test (expected=NullPointerException.class)
+  public void test_addNewPastMeeting_nullDate() {
+    System.out.println("TEST 17.3");
+    Set<Contact> tcs = new HashSet<Contact>(); // TODO: upscope tcs and rename 'testContactSet' 
+    tcs = populateTestContactSet(101,102);
+    Calendar nullCal = null; 
+    cm.addNewPastMeeting(tcs, nullCal, myMtgNote); // TODO: rename 'testNote'
+  }
+
+  @Test (expected=NullPointerException.class)
+  public void test_addNewPastMeeting_nullNote() {
+    System.out.println("TEST 17.4");
+    Set<Contact> tcs = new HashSet<Contact>();
+    tcs = populateTestContactSet(101,102);
+    String nullNote = null; 
+    cm.addNewPastMeeting(tcs, cal, nullNote);
   }
 
   @Test

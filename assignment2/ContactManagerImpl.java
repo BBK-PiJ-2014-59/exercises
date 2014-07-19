@@ -22,12 +22,32 @@ public class ContactManagerImpl implements ContactManager {
     nextMtgId = FIRSTMTGID;
   }
 
-
+  private boolean allContactsExist(Set<Contact> sc) { 
+    boolean result = true;
+    for (Contact c: sc) {
+      result = contacts.contains(c);
+      if (result == false) {
+        break;
+      } 
+    }
+    return result;
+  }
+ 
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
     int newMtgId = getNextMtgId();
     //Meeting mtg = new MeetingImpl(newMtgId, date, contacts);
-    PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, contacts);
-    mtgs.add(pastMtg);
+    if (contacts.isEmpty()) {
+      throw new IllegalArgumentException("List of contacts was empty.");
+    } 
+    if (contacts == null || date == null || text == null) {
+      throw new NullPointerException("Arguments must not be null.");
+    } 
+    if (!allContactsExist(contacts)) {
+      throw new IllegalArgumentException("Nonexistent contact.");
+    } else {
+      PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, contacts);
+      mtgs.add(pastMtg);
+    }
   }
 
   private int getNextMtgId() {
@@ -53,7 +73,7 @@ public class ContactManagerImpl implements ContactManager {
     Set<Contact> result = new HashSet<Contact>();
     for (int argId : ids) {
       boolean foundId = false;
-      for (Contact c : contacts) {
+      for (Contact c : contacts) { // TODO: O(n^2) ... need to redo.. memoize?
         if (c.getId() == argId) {
           result.add(c);
           foundId = true;
