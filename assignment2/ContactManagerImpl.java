@@ -33,20 +33,34 @@ public class ContactManagerImpl implements ContactManager {
     return result;
   }
  
-	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
-    int newMtgId = getNextMtgId();
-    //Meeting mtg = new MeetingImpl(newMtgId, date, contacts);
-    if (contacts.isEmpty()) {
+  //private void checkContactSetNotEmpty() {
+  private void checkContactSetNotEmpty(Set<Contact> sc) {
+    System.out.println("yoda");
+    System.out.println(contacts.hashCode());
+    if (sc.isEmpty()) {
       throw new IllegalArgumentException("List of contacts was empty.");
     } 
-    if (contacts == null || date == null || text == null) {
+  }
+
+	public void addNewPastMeeting(Set<Contact> sc, Calendar date, String text) {
+    int newMtgId = getNextMtgId();
+    //Meeting mtg = new MeetingImpl(newMtgId, date, contacts);
+    /*
+    if (sc.isEmpty()) {
+      throw new IllegalArgumentException("List of contacts was empty.");
+    } 
+    */
+
+    //checkContactSetNotEmpty();
+    checkContactSetNotEmpty(sc);
+    if (sc == null || date == null || text == null) {
       throw new NullPointerException("Arguments must not be null.");
     } 
-    if (!allContactsExist(contacts)) {
+    if (!allContactsExist(sc)) {
       throw new IllegalArgumentException("Nonexistent contact.");
     } else {
-      //PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, contacts, text);
-      PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, contacts);
+      //PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, sc, text);
+      PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, sc);
       mtgs.add(pastMtg);
     }
   }
@@ -120,7 +134,7 @@ public class ContactManagerImpl implements ContactManager {
     return nextContactId++;
   }
 
-	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
+	public int addFutureMeeting(Set<Contact> sc, Calendar date) {
     //Meeting fm = new Meeting
     return 1000;
   }
@@ -171,5 +185,6 @@ public class ContactManagerImpl implements ContactManager {
 
 	public void flush() {
   }
+
 
 }
