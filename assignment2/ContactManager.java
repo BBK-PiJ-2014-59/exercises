@@ -92,7 +92,7 @@ public interface ContactManager {
   * spec doesn't have any restrictions on class fields whereas Meeting spec does (and doesn't include it
   * in any of its fields nor include a text setter in any public methods). ]
 	* @throws IllegalArgumentException if the list of contacts is
-	* empty [ DONE: Test 17.1 ] , or any of the contacts does not exist
+	* empty [ DONE: Test 17.1 ] , or any of the contacts does not exist [ DONE: Test 17 ]
 	* @throws NullPointerException if any of the arguments is null [ DONE: tests 17.2 - 17.4 ]
 	*/
 	void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text);

@@ -429,6 +429,7 @@ public class ContactManagerTests {
     tcs = populateTestContactSet(101,102);
     String nullNote = null; 
     cm.addNewPastMeeting(tcs, cal, nullNote);
+    //cm.addNewPastMeeting(null, cal, "foo");
   }
 
   @Test
@@ -438,6 +439,24 @@ public class ContactManagerTests {
     assertNull(pm.getNotes());
   }
 
+  @Test (expected=IllegalArgumentException.class)
+  public void test_addMeetingNotes_nonExistentMeeting() {
+    System.out.println("TEST 19");
+    cm.addMeetingNotes(9999, "blah");
+  }
+
+  //@Test TODO: how to get around PastMeeting interface allowing no setter for notes?
+  public void test_addMeetingNotes_meetingExists_getNotes() {
+    System.out.println("TEST 20");
+    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN+100);
+    Set<Contact> tcs = new HashSet<Contact>();
+    tcs = cm.getContacts(idsToRequest);
+    myMtgNote = "blah";
+    cm.addNewPastMeeting(tcs, cal, myMtgNote);
+    assertNotNull(cm.getPastMeeting(MTGIDMIN)); 
+    cm.addMeetingNotes(MTGIDMIN, myMtgNote);
+    assertEquals(myMtgNote, cm.getPastMeeting(MTGIDMIN).getNotes());
+  }
 
   /* TODO: rewrite test using ContactManager.addMeetingNotes()
   @Test
@@ -446,5 +465,22 @@ public class ContactManagerTests {
     assertNull(pm.getNotes());
   }
   */
+
+    /* 
+    * Takes a number of contacts and a ContactManager object and returns test Set of Contact objects with IDs ranging from the minimum ID to (minimum + number IDs to add - 1). 
+    */
+  private Set<Contact> populateTestContactSet(int numTestContacts, ContactManager cm) {
+    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN+100);
+    Set<Contact> tcs = new HashSet<Contact>();
+    return cm.getContacts(idsToRequest);
+  }
+
+  @Test
+  public void test_addFutureMeeting() {
+
+    Set<Contact> tcs = populateTestContactSet(10, cm);
+    assertEquals(MTGIDMIN, cm.addFutureMeeting(tcs, cal));
+    assertEquals(MTGIDMIN+1, cm.addFutureMeeting(tcs, cal));
+  }
   
 }

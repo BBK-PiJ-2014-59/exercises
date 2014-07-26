@@ -6,6 +6,7 @@ public class MeetingImpl implements Meeting {
 
   private int id;
   private Calendar cal;
+  private String notes;
   private static final String USERNAME = "USERNAME";
   private static final int USERID = 100;
   private static final Contact USER = new ContactImpl(USERID, USERNAME);

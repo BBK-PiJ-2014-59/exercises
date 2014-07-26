@@ -45,6 +45,7 @@ public class ContactManagerImpl implements ContactManager {
     if (!allContactsExist(contacts)) {
       throw new IllegalArgumentException("Nonexistent contact.");
     } else {
+      //PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, contacts, text);
       PastMeeting pastMtg = new PastMeetingImpl(newMtgId, date, contacts);
       mtgs.add(pastMtg);
     }
@@ -120,7 +121,8 @@ public class ContactManagerImpl implements ContactManager {
   }
 
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-    return 0;
+    //Meeting fm = new Meeting
+    return 1000;
   }
 
   /*
@@ -156,7 +158,13 @@ public class ContactManagerImpl implements ContactManager {
 	public List<PastMeeting> getPastMeetingList(Contact contact) {
     return null;
   }
+
 	public void addMeetingNotes(int id, String text) {
+    if (getMeeting(id) == null) {
+      throw new IllegalArgumentException("Meeting doesn't exist.");
+    } else {
+      //getMeeting(id).setNotes(text); //TODO setter not allowed in interface. wtf?
+    }
   }
 
 
