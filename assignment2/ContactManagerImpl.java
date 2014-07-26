@@ -33,25 +33,24 @@ public class ContactManagerImpl implements ContactManager {
     return result;
   }
  
-  //private void checkContactSetNotEmpty() {
   private void checkContactSetNotEmpty(Set<Contact> sc) {
-    System.out.println("yoda");
-    System.out.println(contacts.hashCode());
     if (sc.isEmpty()) {
       throw new IllegalArgumentException("List of contacts was empty.");
     } 
   }
 
+	public int addFutureMeeting(Set<Contact> sc, Calendar date) {
+    //Meeting fm = new Meeting
+    Calendar rightNow = Calendar.getInstance();
+    if (date.before(rightNow)) {
+      throw new IllegalArgumentException("Date must be in the future.");
+    }
+    int newMtgId = getNextMtgId();
+    return newMtgId;
+  }
+
 	public void addNewPastMeeting(Set<Contact> sc, Calendar date, String text) {
     int newMtgId = getNextMtgId();
-    //Meeting mtg = new MeetingImpl(newMtgId, date, contacts);
-    /*
-    if (sc.isEmpty()) {
-      throw new IllegalArgumentException("List of contacts was empty.");
-    } 
-    */
-
-    //checkContactSetNotEmpty();
     checkContactSetNotEmpty(sc);
     if (sc == null || date == null || text == null) {
       throw new NullPointerException("Arguments must not be null.");
@@ -134,10 +133,6 @@ public class ContactManagerImpl implements ContactManager {
     return nextContactId++;
   }
 
-	public int addFutureMeeting(Set<Contact> sc, Calendar date) {
-    //Meeting fm = new Meeting
-    return 1000;
-  }
 
   /*
   private PastMeeting toPastMeeting(Meeting meeting) {

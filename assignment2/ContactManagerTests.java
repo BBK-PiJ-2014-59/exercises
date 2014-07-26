@@ -33,6 +33,8 @@ public class ContactManagerTests {
 
   static private final int FAKEMTGID = 9999;
 
+  static private final int TESTCONTACTSETSIZE = 10;
+
   static private final Calendar FAKECAL = Calendar.getInstance();
 
   private int myId;
@@ -164,8 +166,7 @@ public class ContactManagerTests {
   @Test
   public void test_getMeeting_meetingExists_1meeting() {
     System.out.println("TEST 1.3.2");
-    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN + 100);
-    Set<Contact> tcs = cm.getContacts(idsToRequest);
+    Set<Contact> tcs = populateTestContactSet(TESTCONTACTSETSIZE, cm);
     cm.addNewPastMeeting(tcs, cal, myMtgNote); // TODO: get rid of cal, myMtgNote
     assertEquals(MTGIDMIN,cm.getMeeting(MTGIDMIN).getId());
   }
@@ -173,8 +174,7 @@ public class ContactManagerTests {
   @Test
   public void test_getMeeting_meetingExists_2meetings() {
     System.out.println("TEST 1.3.3");
-    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN + 100);
-    Set<Contact> tcs = cm.getContacts(idsToRequest);
+    Set<Contact> tcs = populateTestContactSet(TESTCONTACTSETSIZE, cm);
     cm.addNewPastMeeting(tcs, cal, myMtgNote);
     cm.addNewPastMeeting(tcs, cal, myMtgNote);
     assertEquals(MTGIDMIN,cm.getMeeting(MTGIDMIN).getId());
@@ -184,8 +184,7 @@ public class ContactManagerTests {
   @Test
   public void test_getMeeting_meetingDoesntExist_2meetings() {
     System.out.println("TEST 1.3.4");
-    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN + 100);
-    Set<Contact> tcs = cm.getContacts(idsToRequest);
+    Set<Contact> tcs = populateTestContactSet(TESTCONTACTSETSIZE, cm);
     cm.addNewPastMeeting(tcs, cal, myMtgNote);
     cm.addNewPastMeeting(tcs, cal, myMtgNote);
     assertNotNull(cm.getMeeting(MTGIDMIN));
@@ -384,9 +383,7 @@ public class ContactManagerTests {
   @Test
   public void test_addNewPastMeeting_getPastMeeting_exists() {
     System.out.println("TEST 17");
-    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN+100);
-    Set<Contact> tcs = new HashSet<Contact>();
-    tcs = cm.getContacts(idsToRequest);
+    Set<Contact> tcs = populateTestContactSet(TESTCONTACTSETSIZE, cm);
     cm.addNewPastMeeting(tcs, cal, myMtgNote);
     assertNotNull(cm.getPastMeeting(MTGIDMIN)); 
   }
@@ -448,9 +445,7 @@ public class ContactManagerTests {
   //@Test TODO: how to get around PastMeeting interface allowing no setter for notes?
   public void test_addMeetingNotes_meetingExists_getNotes() {
     System.out.println("TEST 20");
-    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN+100);
-    Set<Contact> tcs = new HashSet<Contact>();
-    tcs = cm.getContacts(idsToRequest);
+    Set<Contact> tcs = populateTestContactSet(TESTCONTACTSETSIZE, cm);
     myMtgNote = "blah";
     cm.addNewPastMeeting(tcs, cal, myMtgNote);
     assertNotNull(cm.getPastMeeting(MTGIDMIN)); 
@@ -476,11 +471,27 @@ public class ContactManagerTests {
   }
 
   @Test
-  public void test_addFutureMeeting() {
-
+  public void test_addFutureMeeting_consecutiveMeetingIdsReturned() {
+    System.out.println("TEST 21");
     Set<Contact> tcs = populateTestContactSet(10, cm);
-    assertEquals(MTGIDMIN, cm.addFutureMeeting(tcs, cal));
-    assertEquals(MTGIDMIN+1, cm.addFutureMeeting(tcs, cal));
+    Calendar futureDate = Calendar.getInstance();
+    futureDate.add(Calendar.YEAR, 1);
+    assertEquals(MTGIDMIN, cm.addFutureMeeting(tcs, futureDate));
+    assertEquals(MTGIDMIN+1, cm.addFutureMeeting(tcs, futureDate));
+  }
+
+  @Test (expected=IllegalArgumentException.class)
+  public void test_addFutureMeeting_pastDate() {
+    System.out.println("TEST 22");
+    Set<Contact> tcs = populateTestContactSet(10, cm);
+    Calendar pastDate = Calendar.getInstance();
+    pastDate.add(Calendar.YEAR, -1);
+    cm.addFutureMeeting(tcs, pastDate);
+  }
+
+  @Test (expected=IllegalArgumentException.class)
+  public void test_addFutureMeeting_nonExistentContact() {
+    System.out.println("TEST 23");
   }
   
 }
