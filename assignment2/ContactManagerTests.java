@@ -58,6 +58,26 @@ public class ContactManagerTests {
     return testContactSet;
   }
 
+  /*
+  * @returns array of contact IDs containing the range requested to be added
+  * @param cIdMin lowest ID in range 
+  * @param cIdMax highest ID in range 
+  * @throws IllegalArgumentException if cIdMin was below minimum ID allowed 
+  */
+  private int[] addTestContactRange(int cIdMin, int cIdMax) {
+    // TODO: shouldn't be able to add below CONTACTIDMIN
+    // But how to know minimum ID allowed if private to ContactManager? Redo so we just ask for a number of contacts to be added
+    // to an empty ContactManager and we're given back an array of IDs to request to get this same amount of existing contacts back.
+    int[] idsToRequest = new int[cIdMax-cIdMin+1];
+    for (int curId = cIdMin; curId <= cIdMax; curId++) {
+      String curName = "name of Contact with ID " + curId;
+      String curNotes = "notes of Contact with ID " + curId;
+      cm.addNewContact(curName, curNotes);
+      idsToRequest[curId-cIdMin] = curId;
+    }
+    return idsToRequest;
+  }
+
   @Before
   public void buildUp() {
     myId = 101; 
@@ -138,39 +158,39 @@ public class ContactManagerTests {
   @Test
   public void test_getMeeting_noMeetingsYet() {
     System.out.println("TEST 1.3.1");
-    Meeting mtg = cm.getMeeting(MTGIDMIN); 
-    assertNull(mtg);
+    assertNull(cm.getMeeting(MTGIDMIN));
   }
 
   @Test
   public void test_getMeeting_meetingExists_1meeting() {
     System.out.println("TEST 1.3.2");
-    contacts.add(c);
-    cm.addNewPastMeeting(contacts, cal, myMtgNote); // TODO: get rid of cal, myMtgNote
-    Meeting mtg = cm.getMeeting(MTGIDMIN); 
-    assertEquals(MTGIDMIN,mtg.getId());
+    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN + 100);
+    Set<Contact> tcs = cm.getContacts(idsToRequest);
+    cm.addNewPastMeeting(tcs, cal, myMtgNote); // TODO: get rid of cal, myMtgNote
+    assertEquals(MTGIDMIN,cm.getMeeting(MTGIDMIN).getId());
   }
 
   @Test
   public void test_getMeeting_meetingExists_2meetings() {
     System.out.println("TEST 1.3.3");
-    contacts.add(c);
-    cm.addNewPastMeeting(contacts, cal, myMtgNote);
-    cm.addNewPastMeeting(contacts, cal, myMtgNote);
-    Meeting mtg1 = cm.getMeeting(MTGIDMIN); 
-    Meeting mtg2 = cm.getMeeting(MTGIDMIN+1); 
-    assertEquals(MTGIDMIN,mtg1.getId());
-    assertEquals(MTGIDMIN+1,mtg2.getId());
+    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN + 100);
+    Set<Contact> tcs = cm.getContacts(idsToRequest);
+    cm.addNewPastMeeting(tcs, cal, myMtgNote);
+    cm.addNewPastMeeting(tcs, cal, myMtgNote);
+    assertEquals(MTGIDMIN,cm.getMeeting(MTGIDMIN).getId());
+    assertEquals(MTGIDMIN+1,cm.getMeeting(MTGIDMIN+1).getId());
   }
 
   @Test
   public void test_getMeeting_meetingDoesntExist_2meetings() {
     System.out.println("TEST 1.3.4");
-    contacts.add(c);
-    cm.addNewPastMeeting(contacts, cal, myMtgNote);
-    cm.addNewPastMeeting(contacts, cal, myMtgNote);
-    Meeting mtg = cm.getMeeting(MTGIDMIN+100); 
-    assertNull(mtg);
+    int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN + 100);
+    Set<Contact> tcs = cm.getContacts(idsToRequest);
+    cm.addNewPastMeeting(tcs, cal, myMtgNote);
+    cm.addNewPastMeeting(tcs, cal, myMtgNote);
+    assertNotNull(cm.getMeeting(MTGIDMIN));
+    assertNotNull(cm.getMeeting(MTGIDMIN+1));
+    assertNull(cm.getMeeting(MTGIDMIN+2));
   }
 
   @Test
@@ -360,49 +380,13 @@ public class ContactManagerTests {
     assertNull(cm.getPastMeeting(MTGIDMIN)); 
   }
 
-  /*
-  * @returns array of contact IDs containing the range requested to be added
-  * @param cIdMin lowest ID in range 
-  * @param cIdMax highest ID in range 
-  * @throws IllegalArgumentException if cIdMin was below minimum ID allowed 
-  */
-  private int[] addTestContactRange(int cIdMin, int cIdMax) {
-    // TODO: shouldn't be able to add below CONTACTIDMIN
-    // But how to know minimum ID allowed if private to ContactManager? Redo so we just ask for a number of contacts to be added
-    // to an empty ContactManager and we're given back an array of IDs to request to get this same amount of existing contacts back.
-    int[] idsToRequest = new int[cIdMax-cIdMin+1];
-    for (int curId = cIdMin; curId <= cIdMax; curId++) {
-      String curName = "name of Contact with ID " + curId;
-      String curNotes = "notes of Contact with ID " + curId;
-      cm.addNewContact(curName, curNotes);
-      idsToRequest[curId-cIdMin] = curId;
-    }
-    return idsToRequest;
-  }
 
   @Test
   public void test_addNewPastMeeting_getPastMeeting_exists() {
     System.out.println("TEST 17");
-
-    //int[] idsToRequest = new int[199-CONTACTIDMIN+1];
     int[] idsToRequest = addTestContactRange(CONTACTIDMIN, CONTACTIDMIN+100);
-
-    /*
-    // TODO NEXT: wrap this in a method returning idsToRequest array
-    int cIdMin = CONTACTIDMIN;
-    int cIdMax = 199;
-    //int[] idsToRequest = new int[cIdMax-cIdMin+1];
-    for (int curId = cIdMin; curId <= cIdMax; curId++) {
-      String curName = "name of Contact with ID " + curId;  
-      String curNotes = "notes of Contact with ID " + curId;  
-      cm.addNewContact(curName, curNotes);
-      idsToRequest[curId-cIdMin] = curId;
-    }
-    */
-
     Set<Contact> tcs = new HashSet<Contact>();
     tcs = cm.getContacts(idsToRequest);
-
     cm.addNewPastMeeting(tcs, cal, myMtgNote);
     assertNotNull(cm.getPastMeeting(MTGIDMIN)); 
   }
