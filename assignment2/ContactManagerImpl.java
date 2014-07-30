@@ -45,7 +45,12 @@ public class ContactManagerImpl implements ContactManager {
     if (date.before(rightNow)) {
       throw new IllegalArgumentException("Date must be in the future.");
     }
+    if (!allContactsExist(sc)) {
+      throw new IllegalArgumentException("Nonexistent contact.");
+    }
     int newMtgId = getNextMtgId();
+    Meeting fm = new MeetingImpl(newMtgId, date, sc);
+      mtgs.add(fm);
     return newMtgId;
   }
 
@@ -156,8 +161,11 @@ public class ContactManagerImpl implements ContactManager {
   }
 
 	public FutureMeeting getFutureMeeting(int id) {
-    return null;
+    //return null;
+    FutureMeeting fm = (FutureMeeting) getMeeting(id);
+    return fm;
   }
+
 	public List<Meeting> getFutureMeetingList(Contact contact) {
     return null;
   }

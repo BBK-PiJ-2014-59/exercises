@@ -37,6 +37,8 @@ public class ContactManagerTests {
 
   static private final Calendar FAKECAL = Calendar.getInstance();
 
+  private String fakeName = "fake name";
+  private int fakeId = 50;
   private int myId;
   private String myName;
   private Contact user;
@@ -310,7 +312,6 @@ public class ContactManagerTests {
   public void test_ContactManager_getContacts_nonExistentContact() {
     System.out.println("TEST 10");
     cm.addNewContact(CONTACTNAME1, CONTACTNOTES1); 
-    int fakeId = 50;
     Set<Contact> s = cm.getContacts(fakeId);
   }
 
@@ -492,6 +493,28 @@ public class ContactManagerTests {
   @Test (expected=IllegalArgumentException.class)
   public void test_addFutureMeeting_nonExistentContact() {
     System.out.println("TEST 23");
+    Set<Contact> tcs = populateTestContactSet(10, cm);
+    tcs.add(new ContactImpl(fakeId, fakeName));
+    Calendar futureDate = Calendar.getInstance();
+    futureDate.add(Calendar.YEAR, 1);
+    cm.addFutureMeeting(tcs, futureDate);
   }
   
+  @Test
+  public void test_getFutureMeeting_nonExistentId() {
+    System.out.println("TEST 24");
+    assertNull(cm.getFutureMeeting(FAKEMTGID));
+  }
+
+  @Test
+  public void test_getFutureMeeting_meetingExists() {
+    System.out.println("TEST 25");
+    Set<Contact> tcs = populateTestContactSet(10, cm);
+    Calendar futureDate = Calendar.getInstance();
+    futureDate.add(Calendar.YEAR, 1);
+    int mtgId = cm.addFutureMeeting(tcs, futureDate);
+    System.out.println("mtgId: " + mtgId);
+    assertEquals(mtgId, cm.getFutureMeeting(mtgId));
+  }
+
 }
