@@ -162,8 +162,9 @@ public class ContactManagerImpl implements ContactManager {
 
 	public FutureMeeting getFutureMeeting(int id) {
     //return null;
-    FutureMeeting fm = (FutureMeeting) getMeeting(id);
-    return fm;
+    //FutureMeeting fm = (FutureMeeting) getMeeting(id);
+    Meeting m = getMeeting(id);
+    return (FutureMeeting) fm;
   }
 
 	public List<Meeting> getFutureMeetingList(Contact contact) {
