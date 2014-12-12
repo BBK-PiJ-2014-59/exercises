@@ -1,4 +1,5 @@
 class PaperSize { 
+
   static int mkint(String s) { 
     int result = 0;
     s = s.substring(1); 
