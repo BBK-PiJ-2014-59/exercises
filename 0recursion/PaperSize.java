@@ -6,25 +6,41 @@ class PaperSize {
     if (n > 0)
       result = n;
     else
-      for (int i=0; i < s.length(); i++)
+      for (int i=1; i < s.length(); i++)
         result--;
     return result;
 
   }
   static double len(int a) { 
-    return (a == 0) ? 1189.0 : 0.5 * wid(a-1);
+    double result = 1189.0;
+    if (a < 0)
+      result = 2 * wid(a + 1);
+    if (a > 0)
+      result = wid(a - 1);
+    return result;
   }
+
   static double wid(int a) { 
-    return (a == 0) ? 841 : len(a-1);
+    double result = 841;
+    if (a < 0)
+      result = len(a + 1);
+    if (a > 0)
+      result = 0.5 * len(a - 1);
+    return result;
   }
   static void size(String s) { 
     int n = mkint(s);
     System.out.println("Size of " + s + " = " + len(n) + " x " + wid(n));
   }
   public static void main(String[] args) { 
-    String s = "A0000";
-    System.out.println(mkint(s));
-    size(s);
+    size("A4");
+    size("A2");
+    size("A1");
+    System.out.println(mkint("A0"));
+    size("A0");
+    size("A00");
+    size("A000");
+    size("A0000");
 
   }
 
