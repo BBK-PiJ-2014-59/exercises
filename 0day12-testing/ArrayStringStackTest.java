@@ -32,7 +32,22 @@ public class ArrayStringStackTest {
   @Test
   public void popReturnsCorrectString() { 
     myArrayStringStack.push(myString);
-    myArrayStringStack.pop();
-    assertEquals();
+    assertEquals(myString, myArrayStringStack.pop());
+  }
+
+  @Test
+  public void morePushesThanSizeDoesntThrow() { 
+    myArrayStringStack.push(myString);
+    myArrayStringStack.push(myString);
+  }
+
+  @Test
+  public void morePushesThan2xSizeDoesntThrow() { 
+    myArrayStringStack.push(myString);
+    myArrayStringStack.push(myString);
+    myArrayStringStack.push(myString);
+    myArrayStringStack.push(myString);
+  }
+
 
 }

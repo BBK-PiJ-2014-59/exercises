@@ -5,7 +5,7 @@ public class ArrayStringStack implements StringStack {
   private String[] stringArray;
 
   public ArrayStringStack() { 
-    size = 2;
+    size = 1;
     top = 0;
     stringArray = new String[size];
   }
@@ -20,7 +20,14 @@ public class ArrayStringStack implements StringStack {
     return stringArray[top--];
   }
   public void push(String newText) { 
-    stringArray[++top] = newText;
+    if (top >= size - 1) { 
+      size = 2 * size;
+      String[] tmpArray = new String[size];
+      System.arraycopy(stringArray, 0, tmpArray, 0, stringArray.length);
+      stringArray = tmpArray;
+    } else { 
+      stringArray[++top] = newText;
+    }
   }
 
 
