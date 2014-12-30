@@ -74,5 +74,7 @@ public class ArrayStringStackTest {
     myArrayStringStack.push(myString2);
     myArrayStringStack.push(myString);
     assertEquals(myString, myArrayStringStack.pop());
+    assertEquals(myString2, myArrayStringStack.pop());
+    assertTrue(myArrayStringStack.isEmpty());
   }
 }

@@ -25,9 +25,8 @@ public class ArrayStringStack implements StringStack {
       String[] tmpArray = new String[size];
       System.arraycopy(stringArray, 0, tmpArray, 0, stringArray.length);
       stringArray = tmpArray;
-    } else { 
-      stringArray[++top] = newText;
-    }
+    } 
+    stringArray[++top] = newText;
   }
 
 
