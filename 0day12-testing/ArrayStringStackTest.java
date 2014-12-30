@@ -4,11 +4,13 @@ import static org.junit.Assert.*;
 public class ArrayStringStackTest { 
   private StringStack myArrayStringStack;
   String myString;
+  String myString2;
 
   @Before
   public void initObjects() { 
     myArrayStringStack = new ArrayStringStack();
     myString = "abc";
+    myString2 = "def";
   }
 
   @Test
@@ -49,5 +51,28 @@ public class ArrayStringStackTest {
     myArrayStringStack.push(myString);
   }
 
+  @Test
+  public void peekOnNewStackReturnsNull() { 
+    assertNull(myArrayStringStack.peek());
+  }
 
+  @Test
+  public void peekOnStackOf1ReturnsPushed() { 
+    myArrayStringStack.push(myString);
+    assertEquals(myString, myArrayStringStack.peek());
+  }
+
+  @Test
+  public void peekReturnsLastPush() { 
+    myArrayStringStack.push(myString2);
+    myArrayStringStack.push(myString);
+    assertEquals(myString, myArrayStringStack.peek());
+  }
+
+  @Test
+  public void popReturnsInCorrectOrder() { 
+    myArrayStringStack.push(myString2);
+    myArrayStringStack.push(myString);
+    assertEquals(myString, myArrayStringStack.pop());
+  }
 }

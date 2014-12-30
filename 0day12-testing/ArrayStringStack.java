@@ -5,7 +5,7 @@ public class ArrayStringStack implements StringStack {
   private String[] stringArray;
 
   public ArrayStringStack() { 
-    size = 1;
+    size = 2;
     top = 0;
     stringArray = new String[size];
   }
@@ -14,7 +14,7 @@ public class ArrayStringStack implements StringStack {
     return top == 0 ? true : false;
   }
   public String peek() { 
-    return null;
+    return stringArray[top];
   }
   public String pop() { 
     return stringArray[top--];
