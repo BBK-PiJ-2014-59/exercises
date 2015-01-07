@@ -19,4 +19,9 @@ public class LibraryTests {
   public void getTitleReturnsTitle() { 
     assertEquals(myTitle1, myBook1.getTitle());     
   }
+
+  @Test
+  public void getAuthorReturnsAuthor() { 
+    assertEquals(myAuthor1, myBook1.getAuthor());     
+  }
 }
