@@ -129,11 +129,22 @@ public class LibraryTests {
     assertTrue(id1 != id2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void userIDNotUniqueThrowsException() { 
+  @Test
+  public void libraryGetIdAlwaysReturnsSameIdForParticularName() { 
     System.out.println("TEST 13");
-    User u1 = new UserImpl("name 1");
-    User u2 = new UserImpl("name 2");
+    String name1 = "name 1";
+    int id1 = myLibrary1.getID(name1);
+    int id2 = myLibrary1.getID(name1);
+    assertEquals(id1, id2);
   }
 
+  @Test
+  public void libraryGetReturnsUniqueIDsforUniqueNames() { 
+    System.out.println("TEST 14");
+    String name1 = "name 1";
+    String name2 = "name 2";
+    int id1 = myLibrary1.getID(name1);
+    int id2 = myLibrary1.getID(name2);
+    assertTrue(id1 != id2);
+  }
 }

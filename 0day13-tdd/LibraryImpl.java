@@ -12,7 +12,7 @@ public class LibraryImpl implements Library {
     maxBorrow = 5;
     users = new ArrayList<User>();
   }
-  public int generateUserID() { 
+  private int generateUserID() { 
     return nextUserID++;
   }
   public String getName() { 
@@ -26,14 +26,18 @@ public class LibraryImpl implements Library {
   }
 
   public int addUser(User u) { 
-    if (!nameIsUniqueInUsers(u.getName())) 
-      throw new IllegalArgumentException("User name not unique.");
-    int id = generateUserID();
-    u.setID(id);
-    if (!idIsUniqueInUsers(u.getID()))
-      throw new IllegalArgumentException("User ID not unique.");
-    users.add(u);
-    return id;
+    if (!nameIsUniqueInUsers(u.getName())) { 
+      throw new IllegalArgumentException("User name exists already.");
+    } else { 
+      int id = generateUserID();
+      u.setID(id);
+      if (!idIsUniqueInUsers(u.getID())) { 
+        throw new IllegalArgumentException("User ID not unique.");
+      } else { 
+        users.add(u);
+        return id;
+      }
+    }
   }
 
   private boolean nameIsUniqueInUsers(String name) { 
@@ -43,6 +47,15 @@ public class LibraryImpl implements Library {
     }
     return result;  
   }
+
+
+  private User getUser(String name) { 
+    for (User user : users) { 
+      if (user.getName().equals(name)) 
+        return user; 
+    }
+    return null;  
+  }
   
   private boolean idIsUniqueInUsers(int id) { 
     boolean result = true;
@@ -50,5 +63,16 @@ public class LibraryImpl implements Library {
       if (user.getID() == id) result = false; 
     }
     return result;  
+  }
+
+  public int getID(String userName) { 
+    int result;
+    User u;
+    if ((u = getUser(userName)) == null) { 
+      result = addUser(new UserImpl(userName));
+    } else { 
+      result = u.getID();
+    }
+    return result;
   }
 }
