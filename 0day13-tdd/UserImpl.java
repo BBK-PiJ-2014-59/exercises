@@ -19,8 +19,9 @@ public class UserImpl implements User {
   }
   public int register(Library l) { 
     libraryName = l.getName();
-    int myID = l.generateUserID();
-    setID(myID);
+    //int myID = l.generateUserID();
+    int myID = l.addUser(this);
+    //setID(myID);
     return myID;
   }
 }
