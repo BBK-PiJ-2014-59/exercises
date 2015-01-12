@@ -5,8 +5,7 @@ public interface Library {
     */
   public String getName();
   /** 
-    * generate unique User ID 
-    * @return user ID number
+    * @return maximum number of books a user can borrow 
     */
   public int getMaxBorrow();
   /** 
@@ -14,14 +13,27 @@ public interface Library {
     */
   public void setMaxBorrow(int max);
   /** 
-    * @param User to add to library 
-    * @throws IllegalArgumentException if User doesn't have unique name in Library;
-    * @return ID of added user
-    */
-  public int addUser(User u);
-  /** 
-    * @param name of user
-    * @return user ID associated with this name, which will be new and unique if there is no user in the library with this name yet.
+    * Adds a user of this name if one doesn't exist or returns the ID if one does.
+    * @param user name 
+    * @return user ID 
     */
   public int getID(String name);
+    /**
+      * Adds a new book to the list of books in this library.
+      * @param book title
+      * @param book author
+      */
+  public void addBook(String title, String author);
+    /**
+      * If the book is not taken, marks the book as taken and returns it. If the book is taken,
+      * null is returned.
+      * @param book title
+      * @return book
+      */
+  public Book takeBook(String title);
+    /**
+      * Marks the book as not taken.
+      * @param book
+      */
+  public void returnBook(Book book);
 }

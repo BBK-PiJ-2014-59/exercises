@@ -112,13 +112,16 @@ public class LibraryTests {
     assertEquals(newMax, myLibrary1.getMaxBorrow()); 
   }
 
+/*
   @Test (expected = IllegalArgumentException.class)
   public void userNameNotUniqueThrowsException() { 
     System.out.println("TEST 11");
     myLibrary1.addUser(new UserImpl("Joe"));
     myLibrary1.addUser(new UserImpl("Joe"));
   }
+*/
 
+/*
   @Test
   public void addingUserWithUniqueNamesReturnsUniqueUserIDs() { 
     System.out.println("TEST 12");
@@ -128,6 +131,7 @@ public class LibraryTests {
     int id2 = myLibrary1.addUser(u2);
     assertTrue(id1 != id2);
   }
+*/
 
   @Test
   public void libraryGetIdAlwaysReturnsSameIdForParticularName() { 
@@ -139,12 +143,40 @@ public class LibraryTests {
   }
 
   @Test
-  public void libraryGetReturnsUniqueIDsforUniqueNames() { 
+  public void libraryGetIDReturnsUniqueIDsforUniqueNames() { 
     System.out.println("TEST 14");
     String name1 = "name 1";
     String name2 = "name 2";
     int id1 = myLibrary1.getID(name1);
     int id2 = myLibrary1.getID(name2);
     assertTrue(id1 != id2);
+  }
+
+  @Test
+  public void canTakeAvailableBook() { 
+    System.out.println("TEST 16");
+    myLibrary1.addBook(myTitle1, myAuthor1);
+    //Book b = myLibrary1.takeBook(myTitle1);
+    //if (b == null) System.out.println("yoda");
+    assertEquals(myTitle1, myLibrary1.takeBook(myTitle1).getTitle());
+  }
+
+  @Test
+  public void cantTakeTakenBook() { 
+    System.out.println("TEST 17");
+    myLibrary1.addBook(myTitle1, myAuthor1);
+    myLibrary1.takeBook(myTitle1);
+    assertNull(myLibrary1.takeBook(myTitle1)); 
+  }
+
+  @Test
+  public void canTakeReturnedBook() { 
+    System.out.println("TEST 18");
+    myLibrary1.addBook(myTitle1, myAuthor1);
+    Book book = myLibrary1.takeBook(myTitle1);
+    assertNull(myLibrary1.takeBook(myTitle1)); 
+    myLibrary1.returnBook(book);
+    assertEquals(book, myLibrary1.takeBook(myTitle1));
+    assertNull(myLibrary1.takeBook(myTitle1)); 
   }
 }
