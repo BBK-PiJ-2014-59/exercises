@@ -179,4 +179,51 @@ public class LibraryTests {
     assertEquals(book, myLibrary1.takeBook(myTitle1));
     assertNull(myLibrary1.takeBook(myTitle1)); 
   }
+
+  @Test
+  public void canReturnABook() { 
+    System.out.println("TEST 19");
+    myLibrary1.addBook(myTitle1, myAuthor1);
+    Book book = myLibrary1.takeBook(myTitle1);
+    assertTrue(myLibrary1.returnBook(book));
+  }
+
+  @Test
+  public void getReaderCountReturnsCorrectSize() { 
+    System.out.println("TEST 20");
+    int count = 50;
+    for(int i=0; i<count; ++i) { 
+      myLibrary1.getID("name" + i);
+    }
+    assertEquals(count, myLibrary1.getReaderCount());
+  }
+
+  @Test
+  public void getBookCountReturnsCorrectSize() { 
+    System.out.println("TEST 21");
+    int count = 50;
+    for(int i=0; i<count; ++i) { 
+      myLibrary1.addBook("title" + i, "author" + 1);
+    }
+    assertEquals(count, myLibrary1.getBookCount());
+  }
+
+  @Test
+  public void getBorrowedBookCountReturnsCorrectSize() { 
+    System.out.println("TEST 22");
+    int count = 50;
+    for(int i=0; i<count; ++i) { 
+      String title = "title" + i;
+      String author = "author" + i;
+      // System.out.println("adding: " + title + ", " + author);
+      myLibrary1.addBook(title, author);
+    }
+    int count2 = 25;
+    for(int j=0; j<count2; ++j) { 
+      System.out.println("yoda: " + j);
+      String title = "title" + j;
+      myLibrary1.takeBook(title);
+    }
+    assertEquals(count2, myLibrary1.getBookBorrowedCount());
+  }
 }

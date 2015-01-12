@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public class LibraryImpl implements Library { 
   private String name;
@@ -82,7 +83,17 @@ public class LibraryImpl implements Library {
     return result;
   }
 
-  public void returnBook(Book book) { 
+  public boolean returnBook(Book book) { 
+    boolean result = false;
+    Iterator it = booksOut.iterator();
+    while (it.hasNext()) { 
+      Book b = (Book) it.next();
+      if (b.equals(book)) { 
+        it.remove();
+        result = true;
+      }
+    }
+    return result;
   }
 
   
@@ -94,28 +105,56 @@ public class LibraryImpl implements Library {
   }
   */
 
-  public Book takeBook(String title) { 
+  private Book haveBook(String title) { 
+    System.out.println("Seeing if library has: " + title);
     Book result = null;
-    for (Book book: books) { 
-      if (book.getTitle().equals(title)); { 
-        result = book; 
+    for (Book b : books) { 
+      if (title.equals(b.getTitle()))  { 
+        result = b;
+        System.out.println("FOUND: " + title);
         break;
       }
     }
+    return result;
+  }
+
+  public Book takeBook(String title) { 
+    System.out.println("trying to take out: " + title);
+    Book result = haveBook(title);
+
     boolean out = false;
-    for (Book book : booksOut) { 
-      if (book.equals(result)); { 
-        out = true;
-        result = null;
-      }
+    if (booksOut.contains(result)) { 
+      out = true;
+      result = null;
+      System.out.println("checked out already");
     }
-    if (result != null)
+    if (result != null) { 
+      //System.out.println("adding " + result.getTitle() + " to booksOut.");
       booksOut.add(result);
+      System.out.println("added " + result.getTitle() + " to booksOut. booksOut.size(): " + booksOut.size());
+    }
     return result; 
   }
 
 
   public void addBook(String title, String author) { 
+    //System.out.print("\nADDBOOK\n");
     books.add(new BookImpl(title, author));
+    //for (Book b : books) { 
+    //  System.out.print(b.getTitle() + " ");
+    //}
+  }
+  
+  public int getReaderCount() { 
+    return users.size();
+  }
+
+  public int getBookCount() { 
+    return books.size();
+  }
+  public int getBookBorrowedCount() { 
+    //for (Book b : booksOut)
+      //System.out.println(b.getTitle() + " " + b.getAuthor());
+    return booksOut.size();
   }
 }
