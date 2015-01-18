@@ -26,8 +26,27 @@ public class Hailstone {
     }
     return result;
   }
+  public static List<Integer> hail2(int n) { 
+    List result = new ArrayList();
+    int next;
+    if (n == 1) { 
+      next = 1;
+      result.add(next);
+      return result;
+    } else if (n % 2 == 0) { 
+      next = n/2;
+    } else { 
+      next = 3*n + 1;
+    }
+    result.add(next);
+    System.out.println("next: " + next);
+    hail2(next);
+    return result;
+  }
+
   public static void main(String[] args) { 
     int start = Integer.parseInt(System.console().readLine("Enter a number: "));
     System.out.println("hail " + start + ": " + Hailstone.hail(start));
+    System.out.println("hail2 " + start + ": " + Hailstone.hail2(start));
   }
 }
