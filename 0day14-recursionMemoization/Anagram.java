@@ -31,8 +31,9 @@ public class Anagram {
     String s1 = "a";
     String s2 = "at";
     String s3 = "cat";
+    String s4 = "kate";
     System.out.println(s1 + " : " + Anagram.a(s1));
     System.out.println(s2 + " : " + Anagram.a(s2));
-    System.out.println(s3 + " : " + Anagram.a(s3));
+    System.out.println(s4 + " : " + Anagram.a(s4));
   }
 }
