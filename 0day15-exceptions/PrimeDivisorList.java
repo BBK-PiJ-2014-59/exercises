@@ -11,10 +11,10 @@ public interface PrimeDivisorList {
     * @throws IllegalArgumentException if non-prime number is passed
     */
   void addInt(Integer n);
-  /** @returns last integer added and removes it
+  /** @returns true if integer was found and removed, otherwise false
     */
-  Integer removeLast();
-  /** @returns string with a sum of numbers, showing how many of each there is 
+  boolean remove(Integer n);
+  /** @returns string with a product of the list elements, showing how many of each there is 
     */
    String toString();
 }
