@@ -29,10 +29,17 @@ public class Cp {
     try {
         in = new BufferedReader(new FileReader(src));
         try {
+          if (dest.exists()) {
+            System.out.println("Overwrite file " + dest + "? (y/n)");
+            if(!System.console().readLine().equals("y")) {
+              System.out.println("Exiting.");
+              System.exit(1);
+            }
+          }
           out = new PrintWriter(dest);
           String line;
           while ((line = in.readLine()) != null)
-            out.write();
+            out.println(line);
 		    } catch (FileNotFoundException ex) {
 		        System.out.println("File " + dest + " does not exist.");
 		    } catch (IOException ex) {
@@ -42,11 +49,10 @@ public class Cp {
         }
     } catch (FileNotFoundException ex) {
         System.out.println("File " + src + " does not exist.");
-    } catch (IOException ex) {
-        ex.printStackTrace();
+    //} catch (IOException ex) { // THIS 
+     //   ex.printStackTrace(); // CAUSES 'UNREACHABLE WARNING IF LEFT IN... why, when it didn't in Cat?
     } finally {
         closeReader(in);
-        out.close();
     }
   }
 
