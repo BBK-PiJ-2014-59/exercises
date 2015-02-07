@@ -32,22 +32,22 @@ public class Computation implements Runnable {
      * Runs the computation.
      */
     public void run() {
-	  synchronized (this) {
-		double result = 0.0;
+      synchronized (this) {
+        double result = 0.0;
     
-		// A new Random is created here because Math.random() is 
-		// synchronised, which leads to no improvement being seen
-		Random r = new Random(-1);
-		for (int i = 0; i < numbers.length; i++) {
-		    result += Math.sqrt(numbers[i]);
-		    result += Math.sqrt(r.nextDouble() * result);
-		    result += Math.sqrt(r.nextDouble() * result);
-		    result += Math.sqrt(r.nextDouble() * result);
-		}
-		this.result = result;
-		this.resultReady = true;
-		notifyAll();
-	  }
+        // A new Random is created here because Math.random() is 
+        // synchronised, which leads to no improvement being seen
+        Random r = new Random(-1);
+        for (int i = 0; i < numbers.length; i++) {
+          result += Math.sqrt(numbers[i]);
+          result += Math.sqrt(r.nextDouble() * result);
+          result += Math.sqrt(r.nextDouble() * result);
+          result += Math.sqrt(r.nextDouble() * result);
+        }
+        this.result = result;
+        this.resultReady = true;
+        notifyAll();
+      }
     }
 
     /**
@@ -57,14 +57,14 @@ public class Computation implements Runnable {
      * @return the result of the computation.
      */
     public synchronized double getResult() {
-	  while (!resultReady) {
-		try {
-		    wait();
-		} catch (InterruptedException ex) {
-		    // Nothing to do, just sleep less
-		}
-	  }
-	  resultReady = false;
-	  return result;
+      while (!resultReady) {
+        try {
+          wait();
+        } catch (InterruptedException ex) {
+          // Nothing to do, just sleep less
+        }
+      }
+      resultReady = false;
+      return result;
     }
 }
