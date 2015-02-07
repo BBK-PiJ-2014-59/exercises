@@ -11,7 +11,6 @@ import java.util.List;
 
 public class ResponsiveUI { 
 
-
   public void launch() { 
     for (int i=0; i<10; ++i) { 
       System.out.println("Input time in ms: ");
@@ -34,7 +33,7 @@ class Task implements Runnable {
   private Object lock = new Object();
 
   public static void printReturned() { 
-    System.out.println(returned); 
+    System.out.println("Finished: " + returned); 
   }
 
   public void addToReturned(String threadNo) { 
@@ -47,9 +46,9 @@ class Task implements Runnable {
   public void run() { 
     try { 
       String me = Thread.currentThread().getName();
-      System.out.println("Starting " + me);
+      //System.out.println("Starting " + me);
       Thread.sleep(time);
-      System.out.println("Finishing " + me);
+      //System.out.println("Finishing " + me);
       addToReturned(me);
     } catch (InterruptedException e) { 
       e.printStackTrace();
