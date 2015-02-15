@@ -27,12 +27,17 @@ class ExecutorThread implements Executor {
 */
 
 class ExecutorImpl implements Executor {
+
   private Queue<Runnable> tasks = new ArrayDeque<Runnable>();
+
   public synchronized void execute(Runnable r) { 
-    System.out.println("Offering...");
+    System.out.println("Offering...time = " + getMaxPendingTime());
     tasks.offer(r);  
     //if ((Runnable queued = tasks.poll()) != null) { 
-    System.out.println("Starting...");
+    System.out.println("Starting...time = " + getMaxPendingTime());
     (new Thread(tasks.poll())).start(); 
+  }
+  public int getMaxPendingTime() { 
+    return tasks.size() * 1000;   
   }
 }
