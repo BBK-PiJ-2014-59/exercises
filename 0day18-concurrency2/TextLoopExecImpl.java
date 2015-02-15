@@ -34,7 +34,7 @@ public class TextLoopExecImpl implements Runnable {
       //ExecutorService es = Executors.newFixedThreadPool(10);
       Executor ex = new ExecutorImpl();
 
-      for (int i = 0; i < 10; i++) { 
+      for (int i = 0; i < 11; i++) { 
         Runnable r = new TextLoopExecImpl("Thread " + i);
         ex.execute(r);
       }

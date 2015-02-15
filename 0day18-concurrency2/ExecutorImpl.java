@@ -9,14 +9,30 @@ new implementation of Executor.
 */
 
 import java.util.concurrent.Executor;
+import java.util.Queue;
+import java.util.ArrayDeque;
 
-class ExecutorImpl implements Executor {
-  /*
-     public void execute(Runnable r) {
-         r.run();
-     }
-  */
+//class ExecutorImpl implements Executor {
+//     public void execute(Runnable r) {
+//         r.run();
+//     }
+//}
+
+/*
+class ExecutorThread implements Executor {
   public void execute(Runnable r) {
     new Thread(r).start();
+  }
+}
+*/
+
+class ExecutorImpl implements Executor {
+  private Queue<Runnable> tasks = new ArrayDeque<Runnable>();
+  public synchronized void execute(Runnable r) { 
+    System.out.println("Offering...");
+    tasks.offer(r);  
+    //if ((Runnable queued = tasks.poll()) != null) { 
+    System.out.println("Starting...");
+    (new Thread(tasks.poll())).start(); 
   }
 }
